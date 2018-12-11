@@ -34,10 +34,10 @@ end
 
 -- table to setup buttons
 local tabButtons = {
-	{ label="First", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
-	{ label="Second", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
-	{ label="Third", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onThirdView },
-	{ label="Fourth", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView },
+	{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
+	{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
+	{ label="Groups", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onThirdView },
+	{ label="Profile", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView },
 }
 
 -- create the actual tabBar widget
