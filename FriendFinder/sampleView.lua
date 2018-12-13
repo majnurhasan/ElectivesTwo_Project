@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- view2.lua
+-- view1.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -20,19 +20,18 @@ function scene:create( event )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "Friends Page", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "First View", display.contentCenterX, 125, native.systemFont, 32 )
 	title:setFillColor( 0 )	-- black
-
-	local newTextParams = { text = "Loaded by the second tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
-							x = display.contentCenterX + 10, 
-							y = title.y + 215, 
-							width = 310, 
-							height = 310, 
-							font = native.systemFont, 
-							fontSize = 14, 
-							align = "center" }
+	
+	local newTextParams = { text = "Loaded by the first tabs\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
+						x = display.contentCenterX + 10, 
+						y = title.y + 215, 
+						width = 310, height = 310, 
+						font = native.systemFont, fontSize = 14, 
+						align = "center" }
 	local summary = display.newText( newTextParams )
 	summary:setFillColor( 0 ) -- black
+
 	
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )

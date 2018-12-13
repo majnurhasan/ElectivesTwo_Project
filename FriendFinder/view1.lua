@@ -20,10 +20,10 @@ function scene:create( event )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "First View", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "Finder Page", display.contentCenterX, 125, native.systemFont, 32 )
 	title:setFillColor( 0 )	-- black
 	
-	local newTextParams = { text = "Loaded by the first tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
+	local newTextParams = { text = "Loaded by the first tabs\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
 						x = display.contentCenterX + 10, 
 						y = title.y + 215, 
 						width = 310, height = 310, 

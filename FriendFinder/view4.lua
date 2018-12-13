@@ -20,7 +20,7 @@ function scene:create( event )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "Fourth View", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "Profile Page", display.contentCenterX, 125, native.systemFont, 32 )
 	title:setFillColor( 0 )	-- black
 
 	local newTextParams = { text = "Loaded by the fourth tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 

@@ -20,7 +20,7 @@ function scene:create( event )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "Third View", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "Groups Page", display.contentCenterX, 125, native.systemFont, 32 )
 	title:setFillColor( 0 )	-- black
 
 	local newTextParams = { text = "Loaded by the third tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
