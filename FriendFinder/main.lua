@@ -10,6 +10,7 @@ display.setStatusBar( display.DefaultStatusBar )
 -- include Corona's "widget" library
 local widget = require "widget"
 local composer = require "composer"
+local sqldb = require "sqldb"
 
 
 -- event listeners for tab buttons:
