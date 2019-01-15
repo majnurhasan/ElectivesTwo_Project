@@ -63,9 +63,16 @@ local people = {
     },
 }
  
---edit to include other entities
+
 for i = 1,#people do
-    local q1 = [[INSERT INTO test VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] .. people[i].LastName .. [[" );]]
+	local q1 = [[INSERT INTO test VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+													 .. people[i].LastName .. [[","]] 
+													 .. people[i].Gender .. [[","]] 
+													 .. people[i].Sex .. [[","]] 
+													 .. people[i].Birthdate .. [[","]] 
+													 .. people[i].Hobby .. [[","]] 
+													 .. people[i].Email .. [[","]] 
+													 .. people[i].PersonType .. [[" );]]
     db:exec( q1 )
 end
 
