@@ -4,18 +4,6 @@
 --
 -----------------------------------------------------------------------------------------
 
---[[sample call syntax
-local utility = require "utility"
-
-local anyVariable = utility.myAwesomeFunction1()
-local myVariable1 = utility.getMyVariable1()
-
-from: https://medium.com/hackthecode/make-a-common-utility-file-in-lua-corona-sdk-2ca4e9bce915 
-
-to access other variables in lua files, simply make them global
-
-from: https://stackoverflow.com/questions/10593464/how-to-pass-and-receive-value-in-lua-to-another-lua ]]
-
 -- Require the SQLite library
 local sqlite3 = require( "sqlite3" )
  
