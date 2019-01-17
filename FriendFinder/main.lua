@@ -48,3 +48,8 @@ local tabBar = widget.newTabBar{
 }
 
 onFirstView()	-- invoke first tab button's onPress event manually
+
+-- experiment back end stuff below:
+
+
+
