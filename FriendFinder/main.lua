@@ -4,13 +4,13 @@
 --
 -----------------------------------------------------------------------------------------
 
--- show default status bar (iOS)
-display.setStatusBar( display.DefaultStatusBar )
-
 -- include Corona's "widget" library
 local widget = require "widget"
 local composer = require "composer"
 local sqldb = require "sqldb"
+
+-- show default status bar (iOS)
+display.setStatusBar( display.DefaultStatusBar )
 
 
 -- event listeners for tab buttons:
