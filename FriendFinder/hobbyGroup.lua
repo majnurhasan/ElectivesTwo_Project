@@ -1,9 +1,5 @@
 -----------------------------------------------------------------------------------------
 --
--- person.lua
+-- hobbyGroup.lua
 --
 -----------------------------------------------------------------------------------------
-function new(firstName, lastName, gender, sex, birthdate, hobbies, email, personType)
-    
-
-end
