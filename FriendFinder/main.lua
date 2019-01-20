@@ -8,6 +8,7 @@
 local widget = require "widget"
 local composer = require "composer"
 local sqldb = require "sqldb"
+local person = require "person"
 
 -- show default status bar (iOS)
 display.setStatusBar( display.DefaultStatusBar )
@@ -50,6 +51,7 @@ local tabBar = widget.newTabBar{
 onFirstView()	-- invoke first tab button's onPress event manually
 
 -- experiment back end stuff below:
+
 
 
 
