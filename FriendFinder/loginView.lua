@@ -14,10 +14,11 @@ function scene:create( event )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "FriendFinder", display.contentCenterX, 80, native.systemFont, 50 )
+	local title = display.newText( "FriendFinder", display.contentCenterX, 70, native.systemFont, 50 )
 	title:setFillColor( 0 )	-- black
 
-	local loginheader = display.newText("Login", display.contentCenterX, 100, native.systemFont, 20)
+	local loginheader = display.newText("Login", display.contentCenterX, 200, native.systemFont, 20)
+	title:setFillColor ( 0 )
 	
 	local newTextParams = { text = "Loaded by the first tabs\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
 						x = display.contentCenterX + 10, 

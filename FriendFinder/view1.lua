@@ -10,10 +10,33 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 	
-	-- Called when the scene's view does not exist.
-	-- 
-	-- INSERT code here to initialize the scene
-	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
+	local function onFirstView( event )
+		composer.gotoScene( "view1" )
+	end
+	
+	local function onSecondView( event )
+		composer.gotoScene( "view2" )
+	end
+	
+	local function onThirdView( event )
+		composer.gotoScene( "view3" )
+	end
+	
+	local function onFourthView( event )
+		composer.gotoScene( "view4" )
+	end
+
+	local tabButtons = {
+		{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView },
+		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
+		{ label="Groups", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onThirdView },
+		{ label="Profile", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView },
+	}
+	
+	local tabBar = widget.newTabBar{
+		top = display.contentHeight - 50,	-- 50 is default height for tabBar widget
+		buttons = tabButtons
+	}
 	
 	-- create a white background to fill screen
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
@@ -37,6 +60,7 @@ function scene:create( event )
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
 	sceneGroup:insert( summary )
+	sceneGroup:insert( tabBar )
 end
 
 function scene:show( event )
