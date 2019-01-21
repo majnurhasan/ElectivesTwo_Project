@@ -3,7 +3,7 @@
 -- person.lua
 --
 -----------------------------------------------------------------------------------------
-module(..., package.seeall)
+local M = {}
 
 local function new(firstName, lastName)
     local object = {}
@@ -12,8 +12,12 @@ local function new(firstName, lastName)
     object.lastName = lastName
     
     function object:sayName()
-        print(object.FirstName .. " " .. object.LastName)
+        print(object.firstName .. " " .. object.lastName)
     end
 
     return object
 end
+
+M.new = new
+
+return M

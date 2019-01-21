@@ -10,18 +10,14 @@ local scene = composer.newScene()
 function scene:create( event )
 	local sceneGroup = self.view
 	
-	-- Called when the scene's view does not exist.
-	-- 
-	-- INSERT code here to initialize the scene
-	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
-	
-	-- create a white background to fill screen
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
 	background:setFillColor( 1 )	-- white
 	
 	-- create some text
-	local title = display.newText( "Finder Page", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "FriendFinder", display.contentCenterX, 80, native.systemFont, 50 )
 	title:setFillColor( 0 )	-- black
+
+	local loginheader = display.newText("Login", display.contentCenterX, 100, native.systemFont, 20)
 	
 	local newTextParams = { text = "Loaded by the first tabs\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
 						x = display.contentCenterX + 10, 
@@ -36,6 +32,7 @@ function scene:create( event )
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
+	sceneGroup:insert( loginheader)
 	sceneGroup:insert( summary )
 end
 
