@@ -8,13 +8,23 @@
 local sqlite3 = require( "sqlite3" )
  
 -- Create a file path for the database file "data.db"
-local path = system.pathForFile( "data.db", system.DocumentsDirectory )
+local path = system.pathForFile( "friendfinderdata.db", system.DocumentsDirectory )
  
 -- Open the database for access
 local db = sqlite3.open( path )
 
 -- Setup for the a table called test
-local tableSetup = [[CREATE TABLE IF NOT EXISTS test ( UserID INTEGER PRIMARY KEY autoincrement, FirstName, LastName, Gender, Sex, Birthdate, Hobby, Email, PersonType);]]
+local tableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY KEY autoincrement,
+																					  FirstName,
+																					  LastName, 
+																					  Gender, 
+																					  Sex, 
+																					  Birthdate, 
+																					  Hobby, 
+																					  Email, 
+																					  PersonType, 
+																					  Username, 
+																					  Password);]]
 db:exec( tableSetup )
 
 -- Collection of data inserted to the table
@@ -28,16 +38,8 @@ local people = {
 		Hobby = "Hiking",
 		Email = "jsmith@gmail.com",
 		PersonType = "Extrovert",
-    },
-    {
-        FirstName = "James",
-		LastName = "Nelson",
-		Gender = "Straight",
-		Sex  = "Male",
-		Birthdate = "09/15/1998",
-		Hobby = "FF 10",
-		Email = "jnelson@gmail.com",
-		PersonType = "Introvert",
+		Username = "jsmith",
+		Password = "jsmith4ever"
     },
     {
         FirstName = "Tricia",
@@ -48,20 +50,24 @@ local people = {
 		Hobby = "Makeup",
 		Email = "coolgirl433@gmail.com",
 		PersonType = "Extrovert",
-    },
+		Username = "barbiedoll",
+		Password = "123kenismybfriend"
+    }
 }
  
 
 for i = 1,#people do
-	local q1 = [[INSERT INTO test VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+	local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
 													 .. people[i].LastName .. [[","]] 
 													 .. people[i].Gender .. [[","]] 
 													 .. people[i].Sex .. [[","]] 
 													 .. people[i].Birthdate .. [[","]] 
 													 .. people[i].Hobby .. [[","]] 
 													 .. people[i].Email .. [[","]] 
-													 .. people[i].PersonType .. [[" );]]
-    db:exec( q1 )
+													 .. people[i].PersonType .. [[","]]
+													 .. people[i].Username .. [[","]]
+													 .. people[i].Password .. [[" );]]
+    db:exec( q )
 end
 
 -- Sample update syntax
@@ -69,8 +75,8 @@ local q2 = [[UPDATE test SET FirstName="Trisha" WHERE UserID=3;]]
 db:exec( q2 )
 
 -- Sample delete syntax
-local q = [[DELETE FROM test WHERE UserID=1;]]
-db:exec( q )
+local q3 = [[DELETE FROM test WHERE UserID=1;]]
+db:exec( q3 )
 
 -- Sample retrieve syntax
 
