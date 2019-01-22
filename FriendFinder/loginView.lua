@@ -14,25 +14,11 @@ function scene:create( event )
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
 	background:setFillColor( 1 )	-- white
 
-	-- functions below
-	local function textListener( event )
-		if ( event.phase == "began" ) then
-
-		elseif ( event.phase == "ended" or event.phase == "submitted" ) then
-			return event.target.text
-		elseif ( event.phase == "editing" ) then
-			return event.target.text
-		end
+	local function onFirstView( event )
+		composer.gotoScene( "view1" )
 	end
-
-	local function loginButtonEvent( event )
- 
-		if ( event.phase == "ended" ) then
-			print( "Button was pressed and released" )
-		end
-	end
-
-
+	
+	
 	-- create some text
 	local title = display.newText( "FriendFinder", display.contentCenterX, 70, native.systemFont, 50 )
 	title:setFillColor( 0 )	-- black
@@ -62,14 +48,27 @@ function scene:create( event )
 	usernameTextField:setTextColor( 0 )
 	usernameTextField.isEditable = true
 	usernameTextField.size = 20
-	usernameTextField:addEventListener( "userInput", textListener )
 
 	local passwordTextField = native.newTextField( passwordParams.x + 140, loginheader.y + 95, 170, 35)
 	passwordTextField:setTextColor( 0 )
 	passwordTextField.isEditable = true
 	passwordTextField.size = 20
-	passwordTextField.isSecure = true	
-	passwordTextField:addEventListener( "userInput", textListener )
+	passwordTextField.isSecure = true
+
+	local function loginButtonEvent( event )
+ 
+		if ( event.phase == "ended" ) then
+			for i=1, table.maxn(tpeople), 1
+			do
+				if(usernameTextField.text==tpeople[i].Username and passwordTextField.text==tpeople[i].Password)
+				then
+					print("success!")	
+					onFirstView()		
+				end
+			end
+		end
+
+	end
 
 	local loginButton = widget.newButton(
 		{
@@ -83,9 +82,6 @@ function scene:create( event )
 			y = 280
 		}
 	)
-	
-	
-
 	
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
@@ -129,7 +125,7 @@ end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	
+	composer.removeScene( "loginView" )
 	-- Called prior to the removal of scene's "view" (sceneGroup)
 	-- 
 	-- INSERT code here to cleanup the scene

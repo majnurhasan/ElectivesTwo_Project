@@ -4,8 +4,10 @@
 --
 -----------------------------------------------------------------------------------------
 
-local composer = require( "composer" )
+local composer = require "composer" 
+local widget = require "widget"
 local scene = composer.newScene()
+
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -26,6 +28,10 @@ function scene:create( event )
 		composer.gotoScene( "view4" )
 	end
 
+	-- create a white background to fill screen
+	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	background:setFillColor( 1 )	-- white
+
 	local tabButtons = {
 		{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView },
 		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
@@ -37,10 +43,6 @@ function scene:create( event )
 		top = display.contentHeight - 50,	-- 50 is default height for tabBar widget
 		buttons = tabButtons
 	}
-	
-	-- create a white background to fill screen
-	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	-- white
 	
 	-- create some text
 	local title = display.newText( "Finder Page", display.contentCenterX, 125, native.systemFont, 32 )

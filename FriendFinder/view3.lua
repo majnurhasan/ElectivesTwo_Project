@@ -4,7 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
-local composer = require( "composer" )
+local composer = require "composer" 
+local widget = require "widget"
 local scene = composer.newScene()
 
 function scene:create( event )

@@ -29,7 +29,7 @@ local tableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY 
 																					  Password);]]
 db:exec( tableSetup )
 
-local tpeople = {}
+tpeople = {}
  
 for row in db:nrows( "SELECT * FROM People" ) do
  
@@ -52,6 +52,7 @@ for row in db:nrows( "SELECT * FROM People" ) do
     }
 end
 
+
 if ( db and db:isopen() ) then
     db:close()
 end
@@ -66,7 +67,7 @@ onLoginView()
 -- experiment back end stuff below:
 local majdi = person.new("Majdi", "Nurhasan")
 majdi.sayName()
-print(tpeople[2].FirstName)
+
 
 
 
