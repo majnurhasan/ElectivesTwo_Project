@@ -13,7 +13,7 @@ local path = system.pathForFile( "friendfinderdata.db", system.DocumentsDirector
 -- Open the database for access
 local db = sqlite3.open( path )
 
--- Setup for the a table called test
+-- Initialize table if not created
 local tableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY KEY autoincrement,
 																					  FirstName,
 																					  LastName, 
@@ -27,7 +27,7 @@ local tableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY 
 																					  Password);]]
 db:exec( tableSetup )
 
--- Collection of data inserted to the table
+-- Add data to the table
 local people = {
     {
         FirstName = "John",
@@ -41,18 +41,6 @@ local people = {
 		Username = "jsmith",
 		Password = "jsmith4ever"
     },
-    {
-        FirstName = "Tricia",
-		LastName = "Cole",
-		Gender = "Straight",
-		Sex  = "Female",
-		Birthdate = "05/25/2002",
-		Hobby = "Makeup",
-		Email = "coolgirl433@gmail.com",
-		PersonType = "Extrovert",
-		Username = "barbiedoll",
-		Password = "123kenismybfriend"
-    }
 }
  
 
