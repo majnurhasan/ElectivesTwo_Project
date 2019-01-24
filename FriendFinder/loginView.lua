@@ -17,7 +17,10 @@ function scene:create( event )
 	local function onFirstView( event )
 		composer.gotoScene( "view1" )
 	end
-	
+
+	local function onRegistrationView( event )
+		composer.gotoScene( "registrationView" )
+	end
 	
 	-- create some text
 	local title = display.newText( "FriendFinder", display.contentCenterX, 70, native.systemFont, 50 )
@@ -44,6 +47,15 @@ function scene:create( event )
 	local password = display.newText( passwordParams )
 	password:setFillColor( 0 )
 
+	local registrationTextParams = { text = "New to FriendFinder? Register now!", 
+						x = display.contentCenterX, 
+						y = 540, 
+						width = 310, height = 310, 
+						font = native.systemFont, fontSize = 15, 
+						align = "center" }
+	local registrationText = display.newText( registrationTextParams )
+	registrationText:setFillColor( 0 ) -- black
+
 	local usernameTextField = native.newTextField( usernameParams.x + 140, loginheader.y + 55, 170, 35)
 	usernameTextField:setTextColor( 0 )
 	usernameTextField.isEditable = true
@@ -55,19 +67,36 @@ function scene:create( event )
 	passwordTextField.size = 20
 	passwordTextField.isSecure = true
 
+	local function onComplete( event )
+		if ( event.action == "clicked" ) then
+			local i = event.index
+			if ( i == 1 ) then
+				-- do nothing
+			end
+		end
+	end
+
+
 	local function loginButtonEvent( event )
  
 		if ( event.phase == "ended" ) then
 			for i=1, table.maxn(tpeople), 1
 			do
 				if(usernameTextField.text==tpeople[i].Username and passwordTextField.text==tpeople[i].Password)
-				then
-					print("success!")	
-					onFirstView()		
+				then	
+					onFirstView()
+				else
+					local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )		
 				end
 			end
 		end
+	end
 
+	local function registerButtonEvent( event )
+ 
+		if ( event.phase == "ended" ) then
+			onRegistrationView()
+		end
 	end
 
 	local loginButton = widget.newButton(
@@ -82,6 +111,19 @@ function scene:create( event )
 			y = 280
 		}
 	)
+
+	local registerButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button2.png",
+			overFile="button2-down.png",
+			label = "",
+			onEvent = registerButtonEvent,
+			x = display.contentCenterX,
+			y = 425
+		}
+	)
 	
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
@@ -92,6 +134,8 @@ function scene:create( event )
 	sceneGroup:insert( usernameTextField )
 	sceneGroup:insert( passwordTextField )
 	sceneGroup:insert( loginButton )
+	sceneGroup:insert( registrationText )
+	sceneGroup:insert( registerButton )
 	
 end
 
