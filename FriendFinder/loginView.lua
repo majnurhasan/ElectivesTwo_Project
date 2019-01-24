@@ -26,10 +26,10 @@ function scene:create( event )
 	local title = display.newText( "FriendFinder", display.contentCenterX, 70, native.systemFont, 50 )
 	title:setFillColor( 0 )	-- black
 
-	local loginheader = display.newText("Login", display.contentCenterX, 140, native.systemFont, 30)
+	loginheader = display.newText("Login", display.contentCenterX, 140, native.systemFont, 30)
 	loginheader:setFillColor ( 0 )
 	
-	local usernameParams = { text = "Username:", 
+	usernameParams = { text = "Username:", 
 						x = 80, 
 						y = loginheader.y + 70, 
 						width = 100, height = 50, 
@@ -38,7 +38,7 @@ function scene:create( event )
 	local username = display.newText( usernameParams )
 	username:setFillColor( 0 )
 
-	local passwordParams = { text = "Password:", 
+	passwordParams = { text = "Password:", 
 						x = 80, 
 						y = loginheader.y + 110, 
 						width = 100, height = 50, 
@@ -56,17 +56,6 @@ function scene:create( event )
 	local registrationText = display.newText( registrationTextParams )
 	registrationText:setFillColor( 0 ) -- black
 
-	local usernameTextField = native.newTextField( usernameParams.x + 140, loginheader.y + 55, 170, 35)
-	usernameTextField:setTextColor( 0 )
-	usernameTextField.isEditable = true
-	usernameTextField.size = 20
-
-	local passwordTextField = native.newTextField( passwordParams.x + 140, loginheader.y + 95, 170, 35)
-	passwordTextField:setTextColor( 0 )
-	passwordTextField.isEditable = true
-	passwordTextField.size = 20
-	passwordTextField.isSecure = true
-
 	local function onComplete( event )
 		if ( event.action == "clicked" ) then
 			local i = event.index
@@ -76,19 +65,23 @@ function scene:create( event )
 		end
 	end
 
-
 	local function loginButtonEvent( event )
  
 		if ( event.phase == "ended" ) then
+			local recordFound = false
 			for i=1, table.maxn(tpeople), 1
 			do
 				if(usernameTextField.text==tpeople[i].Username and passwordTextField.text==tpeople[i].Password)
 				then	
-					onFirstView()
-				else
-					local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )		
+					recordFound = true
 				end
 			end
+			if (recordFound == true)
+				then
+					onFirstView()
+				else
+					local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
+				end
 		end
 	end
 
@@ -131,8 +124,6 @@ function scene:create( event )
 	sceneGroup:insert( loginheader )
 	sceneGroup:insert( username )
 	sceneGroup:insert( password )
-	sceneGroup:insert( usernameTextField )
-	sceneGroup:insert( passwordTextField )
 	sceneGroup:insert( loginButton )
 	sceneGroup:insert( registrationText )
 	sceneGroup:insert( registerButton )
@@ -150,6 +141,19 @@ function scene:show( event )
 		-- 
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
+		usernameTextField = native.newTextField( usernameParams.x + 140, loginheader.y + 55, 170, 35)
+		usernameTextField:setTextColor( 0 )
+		usernameTextField.isEditable = true
+		usernameTextField.size = 20
+
+		passwordTextField = native.newTextField( passwordParams.x + 140, loginheader.y + 95, 170, 35)
+		passwordTextField:setTextColor( 0 )
+		passwordTextField.isEditable = true
+		passwordTextField.size = 20
+		passwordTextField.isSecure = true
+
+		sceneGroup:insert( usernameTextField )
+		sceneGroup:insert( passwordTextField )
 	end	
 end
 
@@ -158,18 +162,27 @@ function scene:hide( event )
 	local phase = event.phase
 	
 	if event.phase == "will" then
+		
 		-- Called when the scene is on screen and is about to move off screen
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
+
+		usernameTextField:removeSelf()
+		usernameTextField = nil
+		
+		passwordTextField:removeSelf()
+        passwordTextField = nil
 	elseif phase == "did" then
+		
 		-- Called when the scene is now off screen
 	end
 end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	composer.removeScene( "loginView" )
+	usernameTextField:removeSelf()
+	passwordTextField:removeSelf()	
 	-- Called prior to the removal of scene's "view" (sceneGroup)
 	-- 
 	-- INSERT code here to cleanup the scene
