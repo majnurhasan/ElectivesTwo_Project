@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- view2.lua
+-- wholeView.lua
 --
 -----------------------------------------------------------------------------------------
 
@@ -10,6 +10,10 @@ local scene = composer.newScene()
 
 function scene:create( event )
 	local sceneGroup = self.view
+	
+	-- create a white background to fill screen
+	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	background:setFillColor( 1 )	-- white
 	
 	local function onFirstView( event )
 		composer.gotoScene( "view1" )
@@ -27,44 +31,28 @@ function scene:create( event )
 		composer.gotoScene( "view4" )
 	end
 
+	-- create a white background to fill screen
+	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	background:setFillColor( 1 )	-- white
+
 	local tabButtons = {
 		{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView },
-		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView, selected = true },
+		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
 		{ label="Groups", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onThirdView },
 		{ label="Profile", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView },
 	}
 	
 	local tabBar = widget.newTabBar{
-		top = display.contentHeight - 50,	-- 50 is default height for tabBar widget
+		top = 300,	-- 50 is default height for tabBar widget
 		buttons = tabButtons
 	}
-	
-	-- create a white background to fill screen
-	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	-- white
-	
-	-- create some text
-	local title = display.newText( "Friends Page", display.contentCenterX, 125, native.systemFont, 32 )
-	title:setFillColor( 0 )	-- black
 
-	local newTextParams = { text = "Loaded by the second tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
-							x = display.contentCenterX + 10, 
-							y = title.y + 215, 
-							width = 310, 
-							height = 310, 
-							font = native.systemFont, 
-							fontSize = 14, 
-							align = "center" }
-	local summary = display.newText( newTextParams )
-	summary:setFillColor( 0 ) -- black
 	
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
-	sceneGroup:insert( title )
-	sceneGroup:insert( summary )
-	sceneGroup:insert( tabBar )
-
-	onSecondView()
+    sceneGroup:insert( tabBar )
+    
+    onFirstView()
 end
 
 function scene:show( event )

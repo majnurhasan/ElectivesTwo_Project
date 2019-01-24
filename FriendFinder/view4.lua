@@ -31,7 +31,7 @@ function scene:create( event )
 		{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView },
 		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
 		{ label="Groups", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onThirdView },
-		{ label="Profile", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView },
+		{ label="Profile", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFourthView, selected = true },
 	}
 	
 	local tabBar = widget.newTabBar{
@@ -63,6 +63,8 @@ function scene:create( event )
 	sceneGroup:insert( title )
 	sceneGroup:insert( summary )
 	sceneGroup:insert( tabBar )
+
+	onFourthView()
 end
 
 function scene:show( event )
