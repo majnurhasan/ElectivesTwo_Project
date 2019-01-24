@@ -181,8 +181,6 @@ end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	usernameTextField:removeSelf()
-	passwordTextField:removeSelf()	
 	-- Called prior to the removal of scene's "view" (sceneGroup)
 	-- 
 	-- INSERT code here to cleanup the scene
