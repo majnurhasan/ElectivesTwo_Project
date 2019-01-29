@@ -38,6 +38,7 @@ for row in db:nrows( "SELECT * FROM People" ) do
     -- Create sub-table at next available index of "people" table
     tpeople[#tpeople+1] =
     {
+        UserID = row.UserID,
         FirstName = row.FirstName,
         LastName = row.LastName,
         Gender = row.Gender,
