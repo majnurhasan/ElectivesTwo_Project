@@ -17,6 +17,7 @@ function scene:create( event )
 	local title = display.newText( "Registration", display.contentCenterX, 40, native.systemFont, 30 )
 	title:setFillColor( 0 )	-- black
 	
+
 	
 	
 	sceneGroup:insert( background )

@@ -49,7 +49,6 @@ for row in db:nrows( "SELECT * FROM People" ) do
         PersonType = row.PersonType,
         Username = row.Username,
         Password = row.Password
-
     }
 end
 
