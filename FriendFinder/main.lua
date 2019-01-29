@@ -6,10 +6,11 @@
 -- show default status bar (iOS)
 display.setStatusBar( display.DefaultStatusBar )
 
--- include Corona's "widget" library
+-- call modules
 local widget = require "widget"
 local composer = require "composer"
 local person = require "person"
+local sqldb = require "sqldb"
 local sqlite3 = require "sqlite3" 
 
 -- Initializing Database and getting data at first boot

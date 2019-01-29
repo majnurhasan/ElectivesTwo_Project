@@ -18,8 +18,6 @@ function scene:create( event )
 	title:setFillColor( 0 )	-- black
 	
 
-	
-	
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
 
