@@ -3,16 +3,15 @@
 -- sqldb.lua
 --
 -----------------------------------------------------------------------------------------
-local sqlite3 = require( "sqlite3" )
-local M = {}
+local dbCommands = {}
 
 local function OpenDatabase()
 	local path = system.pathForFile( "friendfinderdata.db", system.DocumentsDirectory )
-	local db = sqlite3.open( path )
+	db = sqlite3.open( path )
 end
 
 local function InitializeTables()
-	local peopleTableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY KEY autoincrement,
+	local peopleTableSetup = [[CREATE TABLE IF NOT EXISTS People ( UserID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 																							FirstName,
 																							LastName, 
 																							Gender, 
@@ -25,29 +24,154 @@ local function InitializeTables()
 																							Password);]]
 	db:exec( peopleTableSetup )
 
-	local hobbiesTableSetup = [[CREATE TABLE IF NOT EXISTS Hobbies ( HobbyID INTEGER PRIMARY KEY autoincrement,
-																							Name, 
-																							UserID INTEGER,
+	local hobbiesTableSetup = [[CREATE TABLE IF NOT EXISTS Hobbies ( HobbyID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+																							HobbyName, 
+																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( hobbiesTableSetup )
 
-	local hobbyGroupsTableSetup = [[CREATE TABLE IF NOT EXISTS HobbyGroups ( GroupID INTEGER PRIMARY KEY autoincrement,
-																							Name);]]
+	local hobbyGroupsTableSetup = [[CREATE TABLE IF NOT EXISTS HobbyGroups ( GroupID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+																							GroupName);]]
 	db:exec( hobbyGroupsTableSetup )
 
-	local peopleHobbyGroupSetup = [[CREATE TABLE IF NOT EXISTS People_HobbyGroups ( GroupID INTEGER,
-																							UserID INTEGER,
+	local peopleHobbyGroupSetup = [[CREATE TABLE IF NOT EXISTS People_HobbyGroups ( GroupID INTEGER NOT NULL,
+																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(GroupID) REFERENCES HobbyGroups(GroupID),
-																							FOREIGN KEY(UserID) REFERENCES People(UserID),);]]
+																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( peopleHobbyGroupSetup )
 end
 
+local function ConstructInitialDataInTables()
+	if tpeople == nil then
+		local people = {
+			{
+				FirstName = "John",
+				LastName = "Smith",
+				Gender = "Straight",
+				Sex  = "Male",
+				Birthdate = "12/03/1990",
+				Hobby = "Hiking",
+				Email = "jsmith@gmail.com",
+				PersonType = "Extrovert",
+				Username = "jsmith",
+				Password = "jsmith4ever"
+			},
+		}
+		
+		for i = 1,#people do
+			local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+															 .. people[i].LastName .. [[","]] 
+															 .. people[i].Gender .. [[","]] 
+															 .. people[i].Sex .. [[","]] 
+															 .. people[i].Birthdate .. [[","]] 
+															 .. people[i].Hobby .. [[","]] 
+															 .. people[i].Email .. [[","]] 
+															 .. people[i].PersonType .. [[","]]
+															 .. people[i].Username .. [[","]]
+															 .. people[i].Password .. [[" );]]
+			db:exec( q )
+		end
+	else
 
+	end
 
-local function LoadDataFromPeopleTable()
+	if thobbies == nil then
+		print("thobbies are inserted with values")
+		local hobbies = {
+			{
+				HobbyName = "Reading",
+				UserID = 1
+			},
+			{
+				HobbyName = "Sewing",
+				UserID = 2
+			},
+			{
+				HobbyName = "Basketball",
+				UserID = 2
+			},
+			{
+				HobbyName = "Volleyball",
+				UserID = 3
+			},
+			{
+				HobbyName = "Karate",
+				UserID = 3
+			},
+		}
 
+		for i = 1,#hobbies do
+			local q = [[INSERT INTO Hobbies VALUES ( NULL, "]] .. hobbies[i].HobbyName .. [[","]]  
+															   .. hobbies[i].UserID .. [[" );]]
+			db:exec( q )
+		end
+	else
+		print("thobbies are not inserted with values")
+	end
+
+	if tgroups == nil then
+		print("tgroups are inserted with values")
+		local groups = {
+			{
+				GroupName = "SCoD: Sewing Club of Davao",
+			},
+			{
+				GroupName = "Interschool Volleyball Society",
+			},
+		}
+		
+		for i = 1,#groups do
+			local q = [[INSERT INTO HobbyGroups VALUES ( NULL, "]]  .. groups[i].GroupName .. [[" );]]
+			db:exec( q )
+		end
+	else
+		print("tgroups are not inserted with values")
+	end
 end
 
+local function LoadDataFromTables()
+	for row in db:nrows( "SELECT * FROM People" ) do
+		tpeople[#tpeople+1] =
+		{
+			UserID = row.UserID,
+			FirstName = row.FirstName,
+			LastName = row.LastName,
+			Gender = row.Gender,
+			Sex = row.Sex,
+			Birthdate = row.Birthdate,
+			Hobby = row.Hobby,
+			Email = row.Email,
+			PersonType = row.PersonType,
+			Username = row.Username,
+			Password = row.Password
+		}
+	end
+
+	for row in db:nrows( "SELECT * FROM Hobbies" ) do
+		thobbies[#thobbies+1] =
+		{
+			HobbyID = row.HobbyID,
+			HobbyName = row.HobbyName,
+			UserID = row.UserID
+		}
+	end
+
+	for row in db:nrows( "SELECT * FROM HobbyGroups" ) do
+		tgroups[#tgroups+1] =
+		{
+			GroupID = row.GroupID,
+			GroupName = row.GroupName
+		}
+	end
+
+	for row in db:nrows( "SELECT * FROM People_HobbyGroups" ) do
+		tpeopleHobbyGroups[#tpeopleHobbyGroups+1] =
+		{
+			GroupID = row.GroupID,
+			UserID = row.UserID
+		}
+	end
+end
 
 local function CloseDatabase()
 	if ( db and db:isopen() ) then
@@ -55,10 +179,14 @@ local function CloseDatabase()
 	end
 end
 
+dbCommands.OpenDatabase = OpenDatabase
+dbCommands.InitializeTables = InitializeTables
+dbCommands.ConstructInitialDataInTables = ConstructInitialDataInTables
+dbCommands.LoadDataFromTables = LoadDataFromTables
+dbCommands.CloseDatabase = CloseDatabase
 
-M.InitializeTables = InitializeTables
 
-return M
+return dbCommands
 
 
 
