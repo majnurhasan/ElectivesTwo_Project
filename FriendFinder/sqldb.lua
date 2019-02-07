@@ -56,6 +56,30 @@ local function ConstructInitialDataInTables()
 				Username = "jsmith",
 				Password = "jsmith4ever"
 			},
+			{
+				FirstName = "Majdi",
+				LastName = "Nurhasan",
+				Gender = "Gay",
+				Sex  = "Male",
+				Birthdate = "11/19/1998",
+				Hobby = "FF XIV",
+				Email = "majnurhasan@gmail.com",
+				PersonType = "Ambivert",
+				Username = "majx804",
+				Password = "412maj612"
+			},
+			{
+				FirstName = "Emery",
+				LastName = "Huang",
+				Gender = "Straight",
+				Sex  = "Male",
+				Birthdate = "03/21/1998",
+				Hobby = "Acting",
+				Email = "ehuang@gmail.com",
+				PersonType = "Extrovert",
+				Username = "freshofftheboat",
+				Password = "ehuang123"
+			},
 		}
 		
 		for i = 1,#people do
@@ -83,11 +107,11 @@ local function ConstructInitialDataInTables()
 				UserID = 1
 			},
 			{
-				HobbyName = "Sewing",
+				HobbyName = "Writing Novels",
 				UserID = 2
 			},
 			{
-				HobbyName = "Basketball",
+				HobbyName = "Tinkering",
 				UserID = 2
 			},
 			{
