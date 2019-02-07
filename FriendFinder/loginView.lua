@@ -29,22 +29,22 @@ function scene:create( event )
 	loginheader = display.newText("Login", display.contentCenterX, 140, native.systemFont, 30)
 	loginheader:setFillColor ( 0 )
 	
-	usernameParams = { text = "Username:", 
+	usernameLParams = { text = "Username:", 
 						x = 80, 
 						y = loginheader.y + 70, 
 						width = 100, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "left" }
-	local username = display.newText( usernameParams )
+	local username = display.newText( usernameLParams )
 	username:setFillColor( 0 )
 
-	passwordParams = { text = "Password:", 
+	passwordLParams = { text = "Password:", 
 						x = 80, 
 						y = loginheader.y + 110, 
 						width = 100, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "left" }
-	local password = display.newText( passwordParams )
+	local password = display.newText( passwordLParams )
 	password:setFillColor( 0 )
 
 	local registrationTextParams = { text = "New to FriendFinder? Register now!", 
@@ -141,12 +141,12 @@ function scene:show( event )
 		-- 
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
-		usernameTextField = native.newTextField( usernameParams.x + 140, loginheader.y + 55, 170, 35)
+		usernameTextField = native.newTextField( usernameLParams.x + 140, loginheader.y + 55, 170, 35)
 		usernameTextField:setTextColor( 0 )
 		usernameTextField.isEditable = true
 		usernameTextField.size = 20
 
-		passwordTextField = native.newTextField( passwordParams.x + 140, loginheader.y + 95, 170, 35)
+		passwordTextField = native.newTextField( passwordLParams.x + 140, loginheader.y + 95, 170, 35)
 		passwordTextField:setTextColor( 0 )
 		passwordTextField.isEditable = true
 		passwordTextField.size = 20
