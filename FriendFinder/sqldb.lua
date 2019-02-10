@@ -52,7 +52,7 @@ local function InitializeTables()
 end
 
 local function ConstructInitialDataInTables()
-	if tpeople ~= nil then
+	if tpeople == nil then
 		local people = {
 			{
 				FirstName = "John",
@@ -109,7 +109,7 @@ local function ConstructInitialDataInTables()
 		print("tpeople are not inserted with values")
 	end
 
-	if thobbies ~= nil then
+	if thobbies == nil then
 		local hobbies = {
 			{
 				HobbyName = "Reading",
@@ -142,7 +142,7 @@ local function ConstructInitialDataInTables()
 		print("thobbies are not inserted with values")
 	end
 
-	if tgroups ~= nil then
+	if tgroups == nil then
 		local groups = {
 			{
 				GroupName = "SCoD: Sewing Club of Davao",
