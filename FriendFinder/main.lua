@@ -7,6 +7,7 @@ tpeople = {}
 thobbies = {}
 tgroups = {}
 tpeopleHobbyGroups = {}
+tpeopleFriends = {}
 
 -- call modules
 local widget = require "widget"

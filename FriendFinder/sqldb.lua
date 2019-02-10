@@ -31,7 +31,9 @@ local function InitializeTables()
 	db:exec( hobbiesTableSetup )
 
 	local hobbyGroupsTableSetup = [[CREATE TABLE IF NOT EXISTS HobbyGroups ( GroupID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-																							GroupName);]]
+																							GroupName,
+																							NumberOfPeople,
+																							Description);]]
 	db:exec( hobbyGroupsTableSetup )
 
 	local peopleHobbyGroupSetup = [[CREATE TABLE IF NOT EXISTS People_HobbyGroups ( GroupID INTEGER NOT NULL,
@@ -46,11 +48,11 @@ local function InitializeTables()
 																							FOREIGN KEY(FriendID) REFERENCES People(UserID));]]
 	db:exec( peopleFriendsSetup )
 
-
+	-- add table for events which is under hobbygroups if needed
 end
 
 local function ConstructInitialDataInTables()
-	if tpeople == nil then
+	if tpeople ~= nil then
 		local people = {
 			{
 				FirstName = "John",
@@ -104,11 +106,10 @@ local function ConstructInitialDataInTables()
 			db:exec( q )
 		end
 	else
-
+		print("tpeople are not inserted with values")
 	end
 
-	if thobbies == nil then
-		print("thobbies are inserted with values")
+	if thobbies ~= nil then
 		local hobbies = {
 			{
 				HobbyName = "Reading",
@@ -141,19 +142,24 @@ local function ConstructInitialDataInTables()
 		print("thobbies are not inserted with values")
 	end
 
-	if tgroups == nil then
-		print("tgroups are inserted with values")
+	if tgroups ~= nil then
 		local groups = {
 			{
 				GroupName = "SCoD: Sewing Club of Davao",
+				NumberOfPeople = 0,
+				Description = "Sewing lovers, come join now!"
 			},
 			{
 				GroupName = "Interschool Volleyball Society",
+				NumberOfPeople = 0,
+				Description = "Groups of volleyball lovers and enthusiasts from different schools."
 			},
 		}
 		
 		for i = 1,#groups do
-			local q = [[INSERT INTO HobbyGroups VALUES ( NULL, "]]  .. groups[i].GroupName .. [[" );]]
+			local q = [[INSERT INTO HobbyGroups VALUES ( NULL, "]]  .. groups[i].GroupName .. [[","]]
+																	.. groups[i].NumberOfPeople .. [[","]]
+																	.. groups[i].Description .. [[" );]]
 			db:exec( q )
 		end
 	else
