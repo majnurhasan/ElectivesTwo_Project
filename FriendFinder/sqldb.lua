@@ -39,6 +39,14 @@ local function InitializeTables()
 																							FOREIGN KEY(GroupID) REFERENCES HobbyGroups(GroupID),
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( peopleHobbyGroupSetup )
+
+	local peopleFriendsSetup = [[CREATE TABLE IF NOT EXISTS People_Friends ( UserID INTEGER NOT NULL,
+																							FriendID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID),
+																							FOREIGN KEY(FriendID) REFERENCES People(UserID));]]
+	db:exec( peopleFriendsSetup )
+
+
 end
 
 local function ConstructInitialDataInTables()
