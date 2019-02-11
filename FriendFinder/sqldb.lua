@@ -36,19 +36,32 @@ local function InitializeTables()
 																							Description);]]
 	db:exec( hobbyGroupsTableSetup )
 
+	local eventsTableSetup = [[CREATE TABLE IF NOT EXISTS Events ( EventID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+																							EventName, 
+																							EventDetails,
+																							EventVenue,
+																							EventParticipants INTEGER,
+																							GroupID INTEGER NOT NULL,
+																							FOREIGN KEY(GroupID) REFERENCES HobbyGroups(GroupID));]]
+	db:exec( eventsTableSetup )
+
 	local peopleHobbyGroupSetup = [[CREATE TABLE IF NOT EXISTS People_HobbyGroups ( GroupID INTEGER NOT NULL,
 																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(GroupID) REFERENCES HobbyGroups(GroupID),
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( peopleHobbyGroupSetup )
 
+	local peopleEventSetup = [[CREATE TABLE IF NOT EXISTS People_Events ( EventID INTEGER NOT NULL,
+																							UserID INTEGER NOT NULL,
+																							FOREIGN KEY(EventID) REFERENCES Events(EventID),
+																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
+	db:exec( peopleEventSetup )
+
 	local peopleFriendsSetup = [[CREATE TABLE IF NOT EXISTS People_Friends ( UserID INTEGER NOT NULL,
 																							FriendID INTEGER NOT NULL,
 																							FOREIGN KEY(UserID) REFERENCES People(UserID),
 																							FOREIGN KEY(FriendID) REFERENCES People(UserID));]]
 	db:exec( peopleFriendsSetup )
-
-	-- add table for events which is under hobbygroups if needed
 end
 
 local function ConstructInitialDataInTables()

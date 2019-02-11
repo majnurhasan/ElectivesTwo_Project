@@ -129,53 +129,61 @@ function scene:create( event )
 
 	local function registerButtonEvent( event )
 		if ( event.phase == "ended" ) then
-			print("Register Successful!")
-			sqldb.OpenDatabase()
-			local people = {
-				{
-					FirstName = firstNameRTextField.text,
-					LastName = lastNameRTextField.text,
-					Gender = genderRTextField.text,
-					Sex  = sexRTextField.text,
-					Birthdate = birthdateRTextField.text,
-					Hobby = hobbyRTextField.text,
-					Email = emailRTextField.text,
-					PersonType = personTypeRTextField.text,
-					Username = usernameRTextField.text,
-					Password = passwordRTextField.text
+			if (firstNameRTextField.text == "" or lastNameRTextField.text == ""   or 
+				genderRTextField.text == ""    or sexRTextField.text == ""        or 
+				birthdateRTextField.text == "" or hobbyRTextField.text == ""      or 
+				emailRTextField.text == "" 	   or personTypeRTextField.text == "" or 
+				usernameRTextField.text == ""  or passwordRTextField.text == "") 
+				then
+				local alert = native.showAlert( "Error", "Please fill in all empty details.", {"OK"}, onComplete )
+			else
+				print("Register Successful!")
+				sqldb.OpenDatabase()
+				local people = {
+					{
+						FirstName = firstNameRTextField.text,
+						LastName = lastNameRTextField.text,
+						Gender = genderRTextField.text,
+						Sex  = sexRTextField.text,
+						Birthdate = birthdateRTextField.text,
+						Hobby = hobbyRTextField.text,
+						Email = emailRTextField.text,
+						PersonType = personTypeRTextField.text,
+						Username = usernameRTextField.text,
+						Password = passwordRTextField.text
+					}
 				}
-			}
-
-			for i = 1,#people do
-				local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
-																.. people[i].LastName .. [[","]] 
-																.. people[i].Gender .. [[","]] 
-																.. people[i].Sex .. [[","]] 
-																.. people[i].Birthdate .. [[","]] 
-																.. people[i].Hobby .. [[","]] 
-																.. people[i].Email .. [[","]] 
-																.. people[i].PersonType .. [[","]]
-																.. people[i].Username .. [[","]]
-																.. people[i].Password .. [[" );]]
-				db:exec( q )
+	
+				for i = 1,#people do
+					local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+																	.. people[i].LastName .. [[","]] 
+																	.. people[i].Gender .. [[","]] 
+																	.. people[i].Sex .. [[","]] 
+																	.. people[i].Birthdate .. [[","]] 
+																	.. people[i].Hobby .. [[","]] 
+																	.. people[i].Email .. [[","]] 
+																	.. people[i].PersonType .. [[","]]
+																	.. people[i].Username .. [[","]]
+																	.. people[i].Password .. [[" );]]
+					db:exec( q )
+				end
+	
+				tpeople = {}
+				sqldb.LoadDataFromTables()
+				sqldb.CloseDatabase()
+	
+				firstNameRTextField.text = ""
+				lastNameRTextField.text = ""
+				genderRTextField.text = ""
+				sexRTextField.text = ""
+				birthdateRTextField.text = ""
+				hobbyRTextField.text = ""
+				emailRTextField.text = ""
+				personTypeRTextField.text = ""
+				usernameRTextField.text = ""
+				passwordRTextField.text = ""
+				local alert = native.showAlert( "Registration Successful", "You are now a FriendFinder User!", {"OK"}, onComplete )	
 			end
-
-			tpeople = {}
-			sqldb.LoadDataFromTables()
-			sqldb.CloseDatabase()
-
-			firstNameRTextField.text = ""
-			lastNameRTextField.text = ""
-			genderRTextField.text = ""
-			sexRTextField.text = ""
-			birthdateRTextField.text = ""
-			hobbyRTextField.text = ""
-			emailRTextField.text = ""
-			personTypeRTextField.text = ""
-			usernameRTextField.text = ""
-			passwordRTextField.text = ""
-
-			local alert = native.showAlert( "Registration Successful", "You are now a FF User!", {"OK"}, onComplete )
 		end	
 	end
 
@@ -248,62 +256,62 @@ function scene:show( event )
 		usernameRTextField:setTextColor( 0 )
 		usernameRTextField.isEditable = true
 		usernameRTextField.size = 20
-		--usernameRTextField.text = "testtest"
+		usernameRTextField.text = ""
 
 		passwordRTextField = native.newTextField( passwordRParams.x + 130, usernameRTextField.y + 39, 170, 35)
 		passwordRTextField:setTextColor( 0 )
 		passwordRTextField.isEditable = true
 		passwordRTextField.size = 20
 		passwordRTextField.isSecure = true
-		--passwordRTextField.text = "123123123"
+		passwordRTextField.text = ""
 
 		firstNameRTextField = native.newTextField( firstNameParams.x + 116, passwordRTextField.y + 39, 170, 35)
 		firstNameRTextField:setTextColor( 0 )
 		firstNameRTextField.isEditable = true
 		firstNameRTextField.size = 20
-		--firstNameRTextField.text = "doublefill"
+		firstNameRTextField.text = ""
 
 		lastNameRTextField = native.newTextField( lastNameParams.x + 115, firstNameRTextField.y + 39, 170, 35)
 		lastNameRTextField:setTextColor( 0 )
 		lastNameRTextField.isEditable = true
 		lastNameRTextField.size = 20
-		--lastNameRTextField.text = "doublefill"
+		lastNameRTextField.text = ""
 
 		genderRTextField = native.newTextField( genderParams.x + 110, lastNameRTextField.y + 39, 170, 35)
 		genderRTextField:setTextColor( 0 )
 		genderRTextField.isEditable = true
 		genderRTextField.size = 20
-		--genderRTextField.text = "doublefill"
+		genderRTextField.text = ""
 
 		sexRTextField = native.newTextField( sexParams.x + 77, genderRTextField.y + 38, 170, 35)
 		sexRTextField:setTextColor( 0 )
 		sexRTextField.isEditable = true
 		sexRTextField.size = 20
-		--sexRTextField.text = "doublefill"
+		sexRTextField.text = ""
 
 		birthdateRTextField = native.newTextField( birthdateParams.x + 123, sexRTextField.y + 38, 170, 35)
 		birthdateRTextField:setTextColor( 0 )
 		birthdateRTextField.isEditable = true
 		birthdateRTextField.size = 20
-		--birthdateRTextField.text = "doublefill"
+		birthdateRTextField.text = ""
 
 		hobbyRTextField = native.newTextField( hobbyParams.x + 125, birthdateRTextField.y + 38, 170, 35)
 		hobbyRTextField:setTextColor( 0 )
 		hobbyRTextField.isEditable = true
 		hobbyRTextField.size = 20
-		--hobbyRTextField.text = "doublefill"
+		hobbyRTextField.text = ""
 
 		emailRTextField = native.newTextField( emailParams.x + 93, hobbyRTextField.y + 38, 170, 35)
 		emailRTextField:setTextColor( 0 )
 		emailRTextField.isEditable = true
 		emailRTextField.size = 20
-		--emailRTextField.text = "doublefill"
+		emailRTextField.text = ""
 
 		personTypeRTextField = native.newTextField( personTypeParams.x + 131, emailRTextField.y + 38, 170, 35)
 		personTypeRTextField:setTextColor( 0 )
 		personTypeRTextField.isEditable = true
 		personTypeRTextField.size = 20
-		--personTypeRTextField.text = "doublefill"
+		personTypeRTextField.text = ""
 
 		sceneGroup:insert( usernameRTextField )
 		sceneGroup:insert( passwordRTextField )
