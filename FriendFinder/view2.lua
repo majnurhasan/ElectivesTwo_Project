@@ -61,8 +61,6 @@ function scene:create( event )
 	sceneGroup:insert( title )
 	sceneGroup:insert( summary )
 	sceneGroup:insert( tabBar )
-
-	onSecondView()
 end
 
 function scene:show( event )

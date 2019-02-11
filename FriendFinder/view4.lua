@@ -42,28 +42,36 @@ function scene:create( event )
 		buttons = tabButtons
 	}
 	
-	
-	local title = display.newText( "Profile Page", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "Profile", display.contentCenterX, 0, native.systemFont, 32 )
 	title:setFillColor( 0 )	
 
-	local newTextParams = { text = "Loaded by the fourth tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
-							x = display.contentCenterX + 10, 
-							y = title.y + 215, 
-							width = 310, 
-							height = 310, 
-							font = native.systemFont, 
-							fontSize = 14, 
-							align = "center" }
-	local summary = display.newText( newTextParams )
-	summary:setFillColor( 0 )
-	
+	local namePParams = { text = "Name: " .. tloggedInUser.FirstName .. " " .. tloggedInUser.LastName, 
+						x = display.contentCenterX, 
+						y = title.y + 60, 
+						width = 250, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local nameHeader = display.newText( namePParams )
+	nameHeader:setFillColor( 0 )
+
+	local scrollView = widget.newScrollView
+	{
+		left = 0,
+		top = 0,
+		width = display.contentWidth,
+		height = 430,
+		topPadding = 30,
+		bottomPadding = 30,
+		horizontalScrollDisabled = true,
+		verticalScrollDisabled = false
+	}
+
+	scrollView:insert(title)
+	scrollView:insert(nameHeader)
 
 	sceneGroup:insert( background )
-	sceneGroup:insert( title )
-	sceneGroup:insert( summary )
 	sceneGroup:insert( tabBar )
-
-	onFourthView()
+	sceneGroup:insert( scrollView )
 end
 
 function scene:show( event )

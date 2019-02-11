@@ -59,8 +59,6 @@ function scene:create( event )
 	sceneGroup:insert( title )
 	sceneGroup:insert( summary )
 	sceneGroup:insert( tabBar )
-
-	onFirstView()
 end
 
 function scene:show( event )
