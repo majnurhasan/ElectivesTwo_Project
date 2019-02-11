@@ -3,11 +3,14 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+-- Local Tables
 tpeople = {}
 thobbies = {}
 tgroups = {}
 tpeopleHobbyGroups = {}
 tpeopleFriends = {}
+-- Person logged in
+tloggedInUser = {}
 
 -- call modules
 local widget = require "widget"

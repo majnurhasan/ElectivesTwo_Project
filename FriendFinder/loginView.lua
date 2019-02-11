@@ -69,15 +69,30 @@ function scene:create( event )
  
 		if ( event.phase == "ended" ) then
 			local recordFound = false
+			local userNumberLocation = 0
 			for i=1, table.maxn(tpeople), 1
 			do
 				if(usernameTextField.text==tpeople[i].Username and passwordTextField.text==tpeople[i].Password)
 				then	
 					recordFound = true
+					userNumberLocation = i
 				end
 			end
 			if (recordFound == true)
 				then
+					tloggedInUser = {
+						FirstName = tpeople[userNumberLocation].FirstName,
+						LastName = tpeople[userNumberLocation].LastName,
+						Gender = tpeople[userNumberLocation].Gender,
+						Sex  = tpeople[userNumberLocation].Sex,
+						Birthdate = tpeople[userNumberLocation].Birthdate,
+						Hobby = tpeople[userNumberLocation].Hobby,
+						Email = tpeople[userNumberLocation].Email,
+						PersonType = tpeople[userNumberLocation].PersonType,
+						Username = tpeople[userNumberLocation].Username,
+						Password = tpeople[userNumberLocation].Password
+					}	
+					print(tloggedInUser.FirstName)
 					onFirstView()
 				else
 					local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
