@@ -46,18 +46,8 @@ function scene:create( event )
 	local title = display.newText( "Finder Page", display.contentCenterX, 125, native.systemFont, 32 )
 	title:setFillColor( 0 )	
 	
-	local newTextParams = { text = "Loaded by the first tabs\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
-						x = display.contentCenterX + 10, 
-						y = title.y + 215, 
-						width = 310, height = 310, 
-						font = native.systemFont, fontSize = 14, 
-						align = "center" }
-	local summary = display.newText( newTextParams )
-	summary:setFillColor( 0 ) 
-
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
-	sceneGroup:insert( summary )
 	sceneGroup:insert( tabBar )
 end
 
