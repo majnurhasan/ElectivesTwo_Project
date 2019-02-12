@@ -112,14 +112,6 @@ function scene:create( event )
 	local personType = display.newText( personTypeParams )
 	personType:setFillColor( 0 )
 
-	local function addHobbyButtonEvent( event )
- 
-		if ( event.phase == "ended" ) then
-			print("Add hobbies")
-
-		end
-	end
-
 	local function backButtonEvent( event )
  
 		if ( event.phase == "ended" ) then
@@ -187,19 +179,6 @@ function scene:create( event )
 		end	
 	end
 
-	local addHobbyButton = widget.newButton(
-		{
-			width = 40,
-			height = 40	,
-			defaultFile="button2.png",
-			overFile="button2-down.png",
-			label = "",
-			onEvent = addHobbyButtonEvent,
-			x = display.contentCenterX,
-			y = 455
-		}
-	)
-
 	local backButton = widget.newButton(
 		{
 			width = 40,
@@ -208,7 +187,7 @@ function scene:create( event )
 			overFile="button1-down.png",
 			label = "",
 			onEvent = backButtonEvent,
-			x = 70,
+			x = 90,
 			y = 455
 		}
 	)
@@ -221,7 +200,7 @@ function scene:create( event )
 			overFile="button2-down.png",
 			label = "",
 			onEvent = registerButtonEvent,
-			x = 250,
+			x = 230,
 			y = 455
 		}
 	)
@@ -238,7 +217,6 @@ function scene:create( event )
 	sceneGroup:insert( hobby )
 	sceneGroup:insert( email )
 	sceneGroup:insert( personType )
-	sceneGroup:insert( addHobbyButton )
 	sceneGroup:insert( backButton )
 	sceneGroup:insert( registerButton )
 
