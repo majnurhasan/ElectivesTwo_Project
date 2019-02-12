@@ -65,7 +65,7 @@ local function InitializeTables()
 end
 
 local function ConstructInitialDataInTables()
-	if tpeople == nil then
+	if peopleCounter == 0 then
 		local people = {
 			{
 				FirstName = "John",
@@ -122,7 +122,7 @@ local function ConstructInitialDataInTables()
 		print("tpeople are not inserted with values")
 	end
 
-	if thobbies == nil then
+	if hobbiesCounter == 0 then
 		local hobbies = {
 			{
 				HobbyName = "Reading",
@@ -155,7 +155,7 @@ local function ConstructInitialDataInTables()
 		print("thobbies are not inserted with values")
 	end
 
-	if tgroups == nil then
+	if hobbyGroupsCounter == 0 then
 		local groups = {
 			{
 				GroupName = "SCoD: Sewing Club of Davao",
@@ -178,9 +178,12 @@ local function ConstructInitialDataInTables()
 	else
 		print("tgroups are not inserted with values")
 	end
+
+	-- create initial data for other tables soon
 end
 
 local function LoadDataFromTables()
+	peopleCounter = 0;
 	for row in db:nrows( "SELECT * FROM People" ) do
 		tpeople[#tpeople+1] =
 		{
@@ -196,8 +199,10 @@ local function LoadDataFromTables()
 			Username = row.Username,
 			Password = row.Password
 		}
+		peopleCounter = peopleCounter + 1
 	end
 
+	hobbiesCounter = 0;
 	for row in db:nrows( "SELECT * FROM Hobbies" ) do
 		thobbies[#thobbies+1] =
 		{
@@ -205,22 +210,27 @@ local function LoadDataFromTables()
 			HobbyName = row.HobbyName,
 			UserID = row.UserID
 		}
+		hobbiesCounter = hobbiesCounter + 1
 	end
 
+	hobbyGroupsCounter = 0;
 	for row in db:nrows( "SELECT * FROM HobbyGroups" ) do
 		tgroups[#tgroups+1] =
 		{
 			GroupID = row.GroupID,
 			GroupName = row.GroupName
 		}
+		hobbyGroupsCounter = hobbyGroupsCounter + 1
 	end
 
+	peopleHobbyGroupsCounter = 0;
 	for row in db:nrows( "SELECT * FROM People_HobbyGroups" ) do
 		tpeopleHobbyGroups[#tpeopleHobbyGroups+1] =
 		{
 			GroupID = row.GroupID,
 			UserID = row.UserID
 		}
+		peopleHobbyGroupsCounter = peopleHobbyGroupsCounter + 1
 	end
 end
 
