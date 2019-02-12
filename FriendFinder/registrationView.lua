@@ -22,6 +22,10 @@ function scene:create( event )
 		composer.gotoScene( "loginView" )
 	end
 
+	local function onMoreRegistrationView( event )
+		composer.gotoScene( "moreRegistrationView" )
+	end
+
 	usernameRParams = { text = "Username:", 
 						x = 80, 
 						y = title.y + 55, 
@@ -112,11 +116,10 @@ function scene:create( event )
 	local personType = display.newText( personTypeParams )
 	personType:setFillColor( 0 )
 
-	local function addHobbyButtonEvent( event )
+	local function moreRegistrationButtonEvent( event )
  
 		if ( event.phase == "ended" ) then
-			print("Add hobbies")
-
+			onMoreRegistrationView()
 		end
 	end
 
@@ -187,14 +190,14 @@ function scene:create( event )
 		end	
 	end
 
-	local addHobbyButton = widget.newButton(
+	local moreRegistrationButton = widget.newButton(
 		{
 			width = 40,
 			height = 40	,
 			defaultFile="button2.png",
 			overFile="button2-down.png",
 			label = "",
-			onEvent = addHobbyButtonEvent,
+			onEvent = moreRegistrationButtonEvent,
 			x = display.contentCenterX,
 			y = 455
 		}
@@ -238,7 +241,7 @@ function scene:create( event )
 	sceneGroup:insert( hobby )
 	sceneGroup:insert( email )
 	sceneGroup:insert( personType )
-	sceneGroup:insert( addHobbyButton )
+	sceneGroup:insert( moreRegistrationButton )
 	sceneGroup:insert( backButton )
 	sceneGroup:insert( registerButton )
 

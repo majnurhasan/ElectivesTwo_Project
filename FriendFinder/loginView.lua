@@ -66,7 +66,6 @@ function scene:create( event )
 	end
 
 	local function loginButtonEvent( event )
- 
 		if ( event.phase == "ended" ) then
 			local recordFound = false
 			local userNumberLocation = 0
@@ -80,24 +79,24 @@ function scene:create( event )
 			end
 			if (recordFound == true)
 				then
-					tloggedInUser = {
-						FirstName = tpeople[userNumberLocation].FirstName,
-						LastName = tpeople[userNumberLocation].LastName,
-						Gender = tpeople[userNumberLocation].Gender,
-						Sex  = tpeople[userNumberLocation].Sex,
-						Birthdate = tpeople[userNumberLocation].Birthdate,
-						Hobby = tpeople[userNumberLocation].Hobby,
-						Email = tpeople[userNumberLocation].Email,
-						PersonType = tpeople[userNumberLocation].PersonType,
-						PDescription = tpeople[userNumberLocation].PDescription,
-						Username = tpeople[userNumberLocation].Username,
-						Password = tpeople[userNumberLocation].Password
-					}	
-					print(tloggedInUser.FirstName)
-					onFirstView()
-				else
-					local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
-				end
+				tloggedInUser = {
+					FirstName = tpeople[userNumberLocation].FirstName,
+					LastName = tpeople[userNumberLocation].LastName,
+					Gender = tpeople[userNumberLocation].Gender,
+					Sex  = tpeople[userNumberLocation].Sex,
+					Birthdate = tpeople[userNumberLocation].Birthdate,
+					Hobby = tpeople[userNumberLocation].Hobby,
+					Email = tpeople[userNumberLocation].Email,
+					PersonType = tpeople[userNumberLocation].PersonType,
+					PDescription = tpeople[userNumberLocation].PDescription,
+					Username = tpeople[userNumberLocation].Username,
+					Password = tpeople[userNumberLocation].Password
+				}	
+				-- add user events and groups here soon
+				onFirstView()
+			else
+				local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
+			end
 		end
 	end
 
