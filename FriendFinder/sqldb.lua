@@ -19,7 +19,8 @@ local function InitializeTables()
 																							Birthdate, 
 																							Hobby, 
 																							Email, 
-																							PersonType, 
+																							PersonType,
+																							PDescription, 
 																							Username, 
 																							Password);]]
 	db:exec( peopleTableSetup )
@@ -76,6 +77,7 @@ local function ConstructInitialDataInTables()
 				Hobby = "Hiking",
 				Email = "jsmith@gmail.com",
 				PersonType = "Extrovert",
+				PDescription = "My name is John but I'm not your ordinary John.",
 				Username = "jsmith",
 				Password = "jsmith4ever"
 			},
@@ -88,6 +90,7 @@ local function ConstructInitialDataInTables()
 				Hobby = "FF XIV",
 				Email = "majnurhasan@gmail.com",
 				PersonType = "Ambivert",
+				PDescription = "I literally like FF XIV, let's do duty runs together",
 				Username = "majx804",
 				Password = "412maj612"
 			},
@@ -100,6 +103,7 @@ local function ConstructInitialDataInTables()
 				Hobby = "Acting",
 				Email = "ehuang@gmail.com",
 				PersonType = "Extrovert",
+				PDescription = "Let's be friends, genuinely.",
 				Username = "freshofftheboat",
 				Password = "ehuang123"
 			},
@@ -114,6 +118,7 @@ local function ConstructInitialDataInTables()
 															 .. people[i].Hobby .. [[","]] 
 															 .. people[i].Email .. [[","]] 
 															 .. people[i].PersonType .. [[","]]
+															 .. people[i].PDescription .. [[","]]
 															 .. people[i].Username .. [[","]]
 															 .. people[i].Password .. [[" );]]
 			db:exec( q )
@@ -196,6 +201,7 @@ local function LoadDataFromTables()
 			Hobby = row.Hobby,
 			Email = row.Email,
 			PersonType = row.PersonType,
+			PDescription = row.PDescription,
 			Username = row.Username,
 			Password = row.Password
 		}

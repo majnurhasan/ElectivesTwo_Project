@@ -89,6 +89,7 @@ function scene:create( event )
 						Hobby = tpeople[userNumberLocation].Hobby,
 						Email = tpeople[userNumberLocation].Email,
 						PersonType = tpeople[userNumberLocation].PersonType,
+						PDescription = tpeople[userNumberLocation].PDescription,
 						Username = tpeople[userNumberLocation].Username,
 						Password = tpeople[userNumberLocation].Password
 					}	

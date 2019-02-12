@@ -7,8 +7,10 @@
 tpeople = {}
 thobbies = {}
 tgroups = {}
+tevents = {}
 tpeopleHobbyGroups = {}
 tpeopleFriends = {}
+tpeopleEvents = {}
 -- Person logged in
 tloggedInUser = {}
 
