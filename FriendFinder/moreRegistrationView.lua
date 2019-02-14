@@ -72,7 +72,7 @@ function scene:create( event )
 			else
 				print("Register Successful!")
 				sqldb.OpenDatabase()
-				local person = {
+				local people = {
 					{
 						FirstName = tpersonRStack.FirstName,
 						LastName = tpersonRStack.LastName,
@@ -87,18 +87,19 @@ function scene:create( event )
 						PDescription = personalDescriptionTextBox.text
 					}
 				}
-				for i = 1,#person do
-					local q = [[INSERT INTO People VALUES ( NULL, "]] .. person[i].FirstName .. [[","]] 
-																	  .. person[i].LastName .. [[","]] 
-																	  .. person[i].Gender .. [[","]] 
-																	  .. person[i].Sex .. [[","]] 
-																	  .. person[i].Birthdate .. [[","]] 
-																	  .. person[i].Hobby .. [[","]] 
-																	  .. person[i].Email .. [[","]] 
-																	  .. person[i].PersonType .. [[","]]
-																	  .. person[i].Username .. [[","]]
-																	  .. person[i].Password .. [[","]]
-																	  .. person[i].PDescription .. [[" );]]
+				
+				for i = 1,#people do
+					local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+																	.. people[i].LastName .. [[","]] 
+																	.. people[i].Gender .. [[","]] 
+																	.. people[i].Sex .. [[","]] 
+																	.. people[i].Birthdate .. [[","]] 
+																	.. people[i].Hobby .. [[","]] 
+																	.. people[i].Email .. [[","]] 
+																	.. people[i].PersonType .. [[","]]
+																	.. people[i].PDescription .. [[","]]
+																	.. people[i].Username .. [[","]]
+																	.. people[i].Password .. [[" );]]
 					db:exec( q )
 				end
 
@@ -119,7 +120,7 @@ function scene:create( event )
 				personalDescriptionTextBox.text = ""
 				tpersonRStack = {}
 				thobbyRStack = {}
-				local alert = native.showAlert( "Registration Successful", "You are now a FriendFinder User! You will be transported back to the login page", {"OK"}, onComplete )	
+				local alert = native.showAlert( "Registration Successful", "You are now a FriendFinder User!", {"OK"}, onComplete )	
 				onLoginView()
 			end
 		end	
@@ -194,7 +195,7 @@ function scene:show( event )
 		personalDescriptionTextBox = native.newTextBox( display.contentCenterX, 300, 250, 230)
 		personalDescriptionTextBox.isEditable = true
 		personalDescriptionTextBox.size = 16
-		personalDescriptionTextBox.text = ""
+		personalDescriptionTextBox.text = "Type your personal description here."
 
 		sceneGroup:insert( extraHobbymRTextField )
 		sceneGroup:insert( personalDescriptionTextBox )
