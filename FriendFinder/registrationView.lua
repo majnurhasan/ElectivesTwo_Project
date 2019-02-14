@@ -13,10 +13,14 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	-- white
+	background:setFillColor( 1 )
+	
+	function background:tap( event )
+		native.setKeyboardFocus( nil )
+	end
 	
 	title = display.newText( "Registration", display.contentCenterX, 25, native.systemFont, 30 )
-	title:setFillColor( 0 )	-- black
+	title:setFillColor( 0 )	
 	
 	local function onLoginView( event )
 		composer.gotoScene( "loginView" )

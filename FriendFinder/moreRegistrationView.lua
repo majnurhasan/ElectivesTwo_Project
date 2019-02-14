@@ -15,6 +15,10 @@ function scene:create( event )
 
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
 	background:setFillColor( 1 )
+
+	function background:tap( event )
+		native.setKeyboardFocus( nil )
+	end
 	
 	titleOne = display.newText( "More Hobbies", display.contentCenterX, 25, native.systemFont, 30 )
 	titleOne:setFillColor( 0 )
@@ -30,10 +34,6 @@ function scene:create( event )
 						align = "left" }
 	local extraHobby = display.newText( extraHobbyParams )
 	extraHobby:setFillColor( 0 )
-
-	function background:tap( event )
-		native.setKeyboardFocus( nil )
-	end
 
 	local function onRegistrationView( event )
 		composer.gotoScene( "registrationView" )
@@ -56,11 +56,9 @@ function scene:create( event )
 				then
 				local alert = native.showAlert( "Error", "Please fill in a hobby before adding.", {"OK"}, onComplete )
 			else
-				print("Hobby added!")
-				print(extraHobbymRTextField.text)
-				--thobbyRStack[hobbyCounter].HobbyName = extraHobbymRTextField.text
-				--hobbyCounter = hobbyCounter + 1
-				--extraHobbymRTextField.text = ""
+				table.insert(thobbyRStack,extraHobbymRTextField.text)
+				hobbyCounter = hobbyCounter + 1
+				extraHobbymRTextField.text = ""
 				local alert = native.showAlert( "Hobby added!", "This is now registered as your hobby.", {"OK"}, onComplete )	
 			end
 		end	
@@ -74,7 +72,7 @@ function scene:create( event )
 			else
 				print("Register Successful!")
 				sqldb.OpenDatabase()
-				local people = {
+				local person = {
 					{
 						FirstName = tpersonRStack.FirstName,
 						LastName = tpersonRStack.LastName,
@@ -89,19 +87,18 @@ function scene:create( event )
 						PDescription = personalDescriptionTextBox.text
 					}
 				}
-	
-				for i = 1,#people do
-					local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
-																	.. people[i].LastName .. [[","]] 
-																	.. people[i].Gender .. [[","]] 
-																	.. people[i].Sex .. [[","]] 
-																	.. people[i].Birthdate .. [[","]] 
-																	.. people[i].Hobby .. [[","]] 
-																	.. people[i].Email .. [[","]] 
-																	.. people[i].PersonType .. [[","]]
-																	.. people[i].Username .. [[","]]
-																	.. people[i].Password .. [[","]]
-																	.. people[i].PDescription .. [[" );]]
+				for i = 1,#person do
+					local q = [[INSERT INTO People VALUES ( NULL, "]] .. person[i].FirstName .. [[","]] 
+																	  .. person[i].LastName .. [[","]] 
+																	  .. person[i].Gender .. [[","]] 
+																	  .. person[i].Sex .. [[","]] 
+																	  .. person[i].Birthdate .. [[","]] 
+																	  .. person[i].Hobby .. [[","]] 
+																	  .. person[i].Email .. [[","]] 
+																	  .. person[i].PersonType .. [[","]]
+																	  .. person[i].Username .. [[","]]
+																	  .. person[i].Password .. [[","]]
+																	  .. person[i].PDescription .. [[" );]]
 					db:exec( q )
 				end
 
@@ -109,7 +106,7 @@ function scene:create( event )
 				sqldb.LoadDataFromTables()
 
 				for i = 1,#thobbyRStack do
-					local p = [[INSERT INTO Hobbies VALUES ( NULL, "]] .. thobbyRStack[i].HobbyName .. [[","]] 
+					local p = [[INSERT INTO Hobbies VALUES ( NULL, "]] .. thobbyRStack[i] .. [[","]] 
 																	   .. tpeople[table.maxn(tpeople)].UserID .. [[" );]]
 					db:exec( p )
 				end
@@ -197,7 +194,7 @@ function scene:show( event )
 		personalDescriptionTextBox = native.newTextBox( display.contentCenterX, 300, 250, 230)
 		personalDescriptionTextBox.isEditable = true
 		personalDescriptionTextBox.size = 16
-		personalDescriptionTextBox.text = "Type your personal description here."
+		personalDescriptionTextBox.text = ""
 
 		sceneGroup:insert( extraHobbymRTextField )
 		sceneGroup:insert( personalDescriptionTextBox )

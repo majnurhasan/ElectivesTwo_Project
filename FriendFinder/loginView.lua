@@ -12,7 +12,11 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	-- white
+	background:setFillColor( 1 )
+
+	function background:tap( event )
+		native.setKeyboardFocus( nil )
+	end
 
 	local function onFirstView( event )
 		composer.gotoScene( "view1" )
@@ -22,9 +26,8 @@ function scene:create( event )
 		composer.gotoScene( "registrationView" )
 	end
 	
-	-- create some text
 	local title = display.newText( "FriendFinder", display.contentCenterX, 70, native.systemFont, 50 )
-	title:setFillColor( 0 )	-- black
+	title:setFillColor( 0 )
 
 	loginheader = display.newText("Login", display.contentCenterX, 140, native.systemFont, 30)
 	loginheader:setFillColor ( 0 )
@@ -150,12 +153,8 @@ function scene:show( event )
 	local phase = event.phase
 	
 	if phase == "will" then
-		-- Called when the scene is still off screen and is about to move on screen
+
 	elseif phase == "did" then
-		-- Called when the scene is now on screen
-		-- 
-		-- INSERT code here to make the scene come alive
-		-- e.g. start timers, begin animation, play audio, etc.
 		usernameTextField = native.newTextField( usernameLParams.x + 140, loginheader.y + 55, 170, 35)
 		usernameTextField:setTextColor( 0 )
 		usernameTextField.isEditable = true
@@ -177,29 +176,19 @@ function scene:hide( event )
 	local phase = event.phase
 	
 	if event.phase == "will" then
-		
-		-- Called when the scene is on screen and is about to move off screen
-		--
-		-- INSERT code here to pause the scene
-		-- e.g. stop timers, stop animation, unload sounds, etc.)
-
 		usernameTextField:removeSelf()
 		usernameTextField = nil
 		
 		passwordTextField:removeSelf()
         passwordTextField = nil
 	elseif phase == "did" then
-		
-		-- Called when the scene is now off screen
+
 	end
 end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	-- Called prior to the removal of scene's "view" (sceneGroup)
-	-- 
-	-- INSERT code here to cleanup the scene
-	-- e.g. remove display objects, remove touch listeners, save state, etc.
+	
 end
 
 ---------------------------------------------------------------------------------
