@@ -3,11 +3,11 @@
 -- registrationView.lua
 --
 -----------------------------------------------------------------------------------------
-
 local composer = require "composer" 
 local widget = require "widget"
 local sqldb = require "sqldb"
 local scene = composer.newScene()
+tpersonRStack = {}
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -116,13 +116,6 @@ function scene:create( event )
 	local personType = display.newText( personTypeParams )
 	personType:setFillColor( 0 )
 
-	local function moreRegistrationButtonEvent( event )
- 
-		if ( event.phase == "ended" ) then
-			onMoreRegistrationView()
-		end
-	end
-
 	local function backButtonEvent( event )
  
 		if ( event.phase == "ended" ) then
@@ -130,51 +123,27 @@ function scene:create( event )
 		end
 	end
 
-	local function registerButtonEvent( event )
+	local function nextButtonEvent( event )
 		if ( event.phase == "ended" ) then
-			if (firstNameRTextField.text == "" or lastNameRTextField.text == ""   or 
-				genderRTextField.text == ""    or sexRTextField.text == ""        or 
-				birthdateRTextField.text == "" or hobbyRTextField.text == ""      or 
-				emailRTextField.text == "" 	   or personTypeRTextField.text == "" or 
-				usernameRTextField.text == ""  or passwordRTextField.text == "") 
+			if ( firstNameRTextField.text == "" or lastNameRTextField.text == "" or
+				 genderRTextField.text == ""    or sexRTextField.text == "" or
+				 birthdateRTextField.text == "" or hobbyRTextField.text == "" or
+				 emailRTextField.text == ""     or personTypeRTextField.text == "" or
+				 usernameRTextField.text == ""  or passwordRTextField.text == "") 
 				then
 				local alert = native.showAlert( "Error", "Please fill in all empty details.", {"OK"}, onComplete )
 			else
-				print("Register Successful!")
-				sqldb.OpenDatabase()
-				local people = {
-					{
-						FirstName = firstNameRTextField.text,
-						LastName = lastNameRTextField.text,
-						Gender = genderRTextField.text,
-						Sex  = sexRTextField.text,
-						Birthdate = birthdateRTextField.text,
-						Hobby = hobbyRTextField.text,
-						Email = emailRTextField.text,
-						PersonType = personTypeRTextField.text,
-						Username = usernameRTextField.text,
-						Password = passwordRTextField.text
-					}
-				}
-	
-				for i = 1,#people do
-					local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
-																	.. people[i].LastName .. [[","]] 
-																	.. people[i].Gender .. [[","]] 
-																	.. people[i].Sex .. [[","]] 
-																	.. people[i].Birthdate .. [[","]] 
-																	.. people[i].Hobby .. [[","]] 
-																	.. people[i].Email .. [[","]] 
-																	.. people[i].PersonType .. [[","]]
-																	.. people[i].Username .. [[","]]
-																	.. people[i].Password .. [[" );]]
-					db:exec( q )
-				end
-	
-				tpeople = {}
-				sqldb.LoadDataFromTables()
-				sqldb.CloseDatabase()
-	
+				tpersonRStack.FirstName = firstNameRTextField.text
+				tpersonRStack.LastName = lastNameRTextField.text
+				tpersonRStack.Gender = genderRTextField.text
+				tpersonRStack.Sex = sexRTextField.text
+				tpersonRStack.Birthdate = birthdateRTextField.text
+				tpersonRStack.Hobby = hobbyRTextField.text
+				tpersonRStack.Email = emailRTextField.text
+				tpersonRStack.PersonType = personTypeRTextField.text
+				tpersonRStack.Username = usernameRTextField.text
+				tpersonRStack.Password = passwordRTextField.text
+
 				firstNameRTextField.text = ""
 				lastNameRTextField.text = ""
 				genderRTextField.text = ""
@@ -185,23 +154,11 @@ function scene:create( event )
 				personTypeRTextField.text = ""
 				usernameRTextField.text = ""
 				passwordRTextField.text = ""
-				local alert = native.showAlert( "Registration Successful", "You are now a FriendFinder User!", {"OK"}, onComplete )	
+				local alert = native.showAlert( "Details Saved", "Please proceed to the final part of the registration.", {"OK"}, onComplete )	
+				onMoreRegistrationView() 
 			end
 		end	
 	end
-
-	local moreRegistrationButton = widget.newButton(
-		{
-			width = 40,
-			height = 40	,
-			defaultFile="button2.png",
-			overFile="button2-down.png",
-			label = "",
-			onEvent = moreRegistrationButtonEvent,
-			x = display.contentCenterX,
-			y = 455
-		}
-	)
 
 	local backButton = widget.newButton(
 		{
@@ -216,14 +173,14 @@ function scene:create( event )
 		}
 	)
 
-	local registerButton = widget.newButton(
+	local nextButton = widget.newButton(
 		{
 			width = 40,
 			height = 40	,
 			defaultFile="button2.png",
 			overFile="button2-down.png",
 			label = "",
-			onEvent = registerButtonEvent,
+			onEvent = nextButtonEvent,
 			x = 250,
 			y = 455
 		}
@@ -241,9 +198,8 @@ function scene:create( event )
 	sceneGroup:insert( hobby )
 	sceneGroup:insert( email )
 	sceneGroup:insert( personType )
-	sceneGroup:insert( moreRegistrationButton )
 	sceneGroup:insert( backButton )
-	sceneGroup:insert( registerButton )
+	sceneGroup:insert( nextButton )
 
 end
 

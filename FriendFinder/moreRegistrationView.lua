@@ -3,22 +3,23 @@
 -- moreRegistrationView.lua
 --
 -----------------------------------------------------------------------------------------
-
 local composer = require "composer" 
 local widget = require "widget"
 local sqldb = require "sqldb"
 local scene = composer.newScene()
+thobbyRStack = {}
+hobbyCounter = 1
 
 function scene:create( event )
 	local sceneGroup = self.view
 
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	
+	background:setFillColor( 1 )
 	
 	titleOne = display.newText( "More Hobbies", display.contentCenterX, 25, native.systemFont, 30 )
 	titleOne:setFillColor( 0 )
 	
-	titleTwo = display.newText( "Personal Description", display.contentCenterX, 180, native.systemFont, 30 )
+	titleTwo = display.newText( "Personal Description", display.contentCenterX, 150, native.systemFont, 30 )
 	titleTwo:setFillColor( 0 )
 
 	extraHobbyParams = { text = "Extra Hobby:", 
@@ -29,9 +30,17 @@ function scene:create( event )
 						align = "left" }
 	local extraHobby = display.newText( extraHobbyParams )
 	extraHobby:setFillColor( 0 )
-	
+
+	function background:tap( event )
+		native.setKeyboardFocus( nil )
+	end
+
 	local function onRegistrationView( event )
 		composer.gotoScene( "registrationView" )
+	end
+
+	local function onLoginView( event )
+	composer.gotoScene( "loginView" )
 	end
 	
 	local function backButtonEvent( event )
@@ -39,6 +48,84 @@ function scene:create( event )
 		if ( event.phase == "ended" ) then
 			onRegistrationView()
 		end
+	end
+
+	local function addHobbyButtonEvent( event )
+		if ( event.phase == "ended" ) then
+			if (extraHobbymRTextField.text == "") 
+				then
+				local alert = native.showAlert( "Error", "Please fill in a hobby before adding.", {"OK"}, onComplete )
+			else
+				print("Hobby added!")
+				print(extraHobbymRTextField.text)
+				--thobbyRStack[hobbyCounter].HobbyName = extraHobbymRTextField.text
+				--hobbyCounter = hobbyCounter + 1
+				--extraHobbymRTextField.text = ""
+				local alert = native.showAlert( "Hobby added!", "This is now registered as your hobby.", {"OK"}, onComplete )	
+			end
+		end	
+	end
+
+	local function registerButtonEvent( event )
+		if ( event.phase == "ended" ) then
+			if ( personalDescriptionTextBox.text == "" ) 
+				then
+				local alert = native.showAlert( "Error", "Please fill in all empty details.", {"OK"}, onComplete )
+			else
+				print("Register Successful!")
+				sqldb.OpenDatabase()
+				local people = {
+					{
+						FirstName = tpersonRStack.FirstName,
+						LastName = tpersonRStack.LastName,
+						Gender = tpersonRStack.Gender,
+						Sex  = tpersonRStack.Sex,
+						Birthdate = tpersonRStack.Birthdate,
+						Hobby = tpersonRStack.Hobby,
+						Email = tpersonRStack.Email,
+						PersonType = tpersonRStack.PersonType,
+						Username = tpersonRStack.Username,
+						Password = tpersonRStack.Password,
+						PDescription = personalDescriptionTextBox.text
+					}
+				}
+	
+				for i = 1,#people do
+					local q = [[INSERT INTO People VALUES ( NULL, "]] .. people[i].FirstName .. [[","]] 
+																	.. people[i].LastName .. [[","]] 
+																	.. people[i].Gender .. [[","]] 
+																	.. people[i].Sex .. [[","]] 
+																	.. people[i].Birthdate .. [[","]] 
+																	.. people[i].Hobby .. [[","]] 
+																	.. people[i].Email .. [[","]] 
+																	.. people[i].PersonType .. [[","]]
+																	.. people[i].Username .. [[","]]
+																	.. people[i].Password .. [[","]]
+																	.. people[i].PDescription .. [[" );]]
+					db:exec( q )
+				end
+
+				tpeople = {}
+				sqldb.LoadDataFromTables()
+
+				for i = 1,#thobbyRStack do
+					local p = [[INSERT INTO Hobbies VALUES ( NULL, "]] .. thobbyRStack[i].HobbyName .. [[","]] 
+																	   .. tpeople[table.maxn(tpeople)].UserID .. [[" );]]
+					db:exec( p )
+				end
+				
+				thobbies = {}
+				sqldb.LoadDataFromTables()
+
+				sqldb.CloseDatabase()
+
+				personalDescriptionTextBox.text = ""
+				tpersonRStack = {}
+				thobbyRStack = {}
+				local alert = native.showAlert( "Registration Successful", "You are now a FriendFinder User! You will be transported back to the login page", {"OK"}, onComplete )	
+				onLoginView()
+			end
+		end	
 	end
 
 	local backButton = widget.newButton(
@@ -53,6 +140,32 @@ function scene:create( event )
 			y = 455
 		}
 	)
+
+	local addHobbyButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button2.png",
+			overFile="button2-down.png",
+			label = "",
+			onEvent = addHobbyButtonEvent,
+			x = display.contentCenterX,
+			y = 110
+		}
+	)
+
+	local registerButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button2.png",
+			overFile="button2-down.png",
+			label = "",
+			onEvent = registerButtonEvent,
+			x = 250,
+			y = 455
+		}
+	)
 	
 
 	sceneGroup:insert( background )
@@ -60,6 +173,10 @@ function scene:create( event )
 	sceneGroup:insert( titleTwo )
 	sceneGroup:insert( backButton )
 	sceneGroup:insert( extraHobby )
+	sceneGroup:insert( addHobbyButton )
+	sceneGroup:insert( registerButton )
+
+	background:addEventListener("tap", background)
 
 end
 
@@ -77,16 +194,13 @@ function scene:show( event )
 		extraHobbymRTextField.size = 20
 		extraHobbymRTextField.text = ""
 
-		--passwordRTextField = native.newTextField( passwordRParams.x + 130, usernameRTextField.y + 39, 170, 35)
-		--passwordRTextField:setTextColor( 0 )
-		--passwordRTextField.isEditable = true
-		--passwordRTextField.size = 20
-		--passwordRTextField.isSecure = true
-		--passwordRTextField.text = ""
-
+		personalDescriptionTextBox = native.newTextBox( display.contentCenterX, 300, 250, 230)
+		personalDescriptionTextBox.isEditable = true
+		personalDescriptionTextBox.size = 16
+		personalDescriptionTextBox.text = "Type your personal description here."
 
 		sceneGroup:insert( extraHobbymRTextField )
-		--sceneGroup:insert( passwordRTextField )
+		sceneGroup:insert( personalDescriptionTextBox )
 		
 
 	end	
@@ -100,8 +214,8 @@ function scene:hide( event )
 		extraHobbymRTextField:removeSelf()
 		extraHobbymRTextField = nil
 		
-		--passwordRTextField:removeSelf()
-		--passwordRTextField = nil
+		personalDescriptionTextBox:removeSelf()
+		personalDescriptionTextBox = nil
 	elseif phase == "did" then
 
 
@@ -110,8 +224,6 @@ end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	-- add code here to reset textfields
-	
 end
 
 ---------------------------------------------------------------------------------
