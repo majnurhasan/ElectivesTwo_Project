@@ -112,14 +112,44 @@ function scene:create( event )
 	local otherHobbiesTitle = display.newText( "Other Hobbies", display.contentCenterX, emailPParams.y + 40, native.systemFont, 32 )
 	otherHobbiesTitle:setFillColor( 0 )	
 
+	local function onRowRender( event )
+		local row = event.row
+	
+		local rowHeight = row.contentHeight
+		local rowWidth = row.contentWidth
+	
+		local rowTitle = display.newText( row, "Row " .. row.index, 0, 0, nil, 14 )
+		rowTitle:setFillColor( 0 )
+
+		rowTitle.anchorX = 0
+		rowTitle.x = 0
+		rowTitle.y = rowHeight * 0.5
+	end
+	
+	local otherHobbiesTableView = widget.newTableView(
+		{
+			left = 30,
+			top = 320,
+			height = 150,
+			width = 250,
+			onRowRender = onRowRender,
+			onRowTouch = onRowTouch,
+			listener = scrollListener
+		}
+	)
+ 
+	for i = 1, 40 do
+		otherHobbiesTableView:insertRow{}
+	end
+
 	local scrollView = widget.newScrollView
 	{
 		left = 0,
 		top = 0,
 		width = display.contentWidth,
-		height = 430,
-		topPadding = 30,
-		bottomPadding = 30,
+		height =431,
+		topPadding = 20,
+		bottomPadding = 20,
 		horizontalScrollDisabled = true,
 		verticalScrollDisabled = false
 	}
@@ -133,6 +163,7 @@ function scene:create( event )
 	scrollView:insert( personTypeHeader )
 	scrollView:insert( emailHeader )
 	scrollView:insert( otherHobbiesTitle )
+	scrollView:insert( otherHobbiesTableView )
 
 
 	sceneGroup:insert( background )
