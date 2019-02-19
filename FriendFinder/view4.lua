@@ -45,14 +45,72 @@ function scene:create( event )
 	local title = display.newText( "Profile", display.contentCenterX, 0, native.systemFont, 32 )
 	title:setFillColor( 0 )	
 
+	local personalDescriptionPParams = { text = "\"" .. tloggedInUser.PDescription .. "\"", 
+						x = display.contentCenterX, 
+						y = title.y + 80, 
+						width = 300, height = 100, 
+						font = native.systemFontBold, fontSize = 20, 
+						align = "center" }
+	local personalDescriptionHeader = display.newText( personalDescriptionPParams )
+	personalDescriptionHeader:setFillColor( 0 )
+
 	local namePParams = { text = "Name: " .. tloggedInUser.FirstName .. " " .. tloggedInUser.LastName, 
 						x = display.contentCenterX, 
-						y = title.y + 60, 
+						y = personalDescriptionPParams.y + 30, 
 						width = 250, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "center" }
 	local nameHeader = display.newText( namePParams )
 	nameHeader:setFillColor( 0 )
+
+	local genderAndSexPParams = { text = "Gender: " .. tloggedInUser.Gender .. "   " .. "Sex: " .. tloggedInUser.Sex, 
+						x = display.contentCenterX, 
+						y = namePParams.y + 30, 
+						width = 300, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local genderAndSexHeader = display.newText( genderAndSexPParams )
+	genderAndSexHeader:setFillColor( 0 )
+
+	local birthdatePParams = { text = "Birthdate: " .. tloggedInUser.Birthdate, 
+						x = display.contentCenterX, 
+						y = genderAndSexPParams.y + 30, 
+						width = 300, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local birthdateHeader = display.newText( birthdatePParams )
+	birthdateHeader:setFillColor( 0 )
+
+	local mainHobbyPParams = { text = "Main Hobby: " .. tloggedInUser.Hobby, 
+						x = display.contentCenterX, 
+						y = birthdatePParams.y + 30, 
+						width = 300, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local mainHobbyHeader = display.newText( mainHobbyPParams )
+	mainHobbyHeader:setFillColor( 0 )
+
+
+	local personTypePParams = { text = "Person Type: " .. tloggedInUser.PersonType, 
+						x = display.contentCenterX, 
+						y = mainHobbyPParams.y + 30, 
+						width = 300, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local personTypeHeader = display.newText( personTypePParams )
+	personTypeHeader:setFillColor( 0 )
+
+	local emailPParams = { text = "Email: " .. tloggedInUser.Email, 
+						x = display.contentCenterX, 
+						y = personTypePParams.y + 30, 
+						width = 300, height = 50, 
+						font = native.systemFont, fontSize = 20, 
+						align = "center" }
+	local emailHeader = display.newText( emailPParams )
+	emailHeader:setFillColor( 0 )
+
+	local otherHobbiesTitle = display.newText( "Other Hobbies", display.contentCenterX, emailPParams.y + 40, native.systemFont, 32 )
+	otherHobbiesTitle:setFillColor( 0 )	
 
 	local scrollView = widget.newScrollView
 	{
@@ -66,8 +124,16 @@ function scene:create( event )
 		verticalScrollDisabled = false
 	}
 
-	scrollView:insert(title)
-	scrollView:insert(nameHeader)
+	scrollView:insert( title )
+	scrollView:insert( personalDescriptionHeader )
+	scrollView:insert( nameHeader )
+	scrollView:insert( genderAndSexHeader )
+	scrollView:insert( birthdateHeader )
+	scrollView:insert( mainHobbyHeader )
+	scrollView:insert( personTypeHeader )
+	scrollView:insert( emailHeader )
+	scrollView:insert( otherHobbiesTitle )
+
 
 	sceneGroup:insert( background )
 	sceneGroup:insert( tabBar )

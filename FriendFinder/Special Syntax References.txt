@@ -168,3 +168,9 @@ if ( db and db:isopen() ) then
 end
 
 from: https://docs.coronalabs.com/tutorial/data/databaseAccess/index.html
+
+Checkout these links soon:
+https://code.coronalabs.com/code/layoutlua-device-independent-layout-manager
+https://code.coronalabs.com/code/date-picker-wheel-widget
+https://code.coronalabs.com/code/scrollview-v11-modified-version
+https://code.coronalabs.com/code/html-styled-text
