@@ -13,6 +13,10 @@ tpeopleFriends = {}
 tpeopleEvents = {}
 -- Person logged in
 tloggedInUser = {}
+tloggedInUserHobbies = {}
+tloggedInUserEvents = {}
+tloggedInUserHobbyGroups = {}
+tloggedInUserFriends = {}
 
 -- call modules
 local widget = require "widget"

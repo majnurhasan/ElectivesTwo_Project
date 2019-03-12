@@ -83,6 +83,7 @@ function scene:create( event )
 			if (recordFound == true)
 				then
 				tloggedInUser = {
+					UserID = userNumberLocation,
 					FirstName = tpeople[userNumberLocation].FirstName,
 					LastName = tpeople[userNumberLocation].LastName,
 					Gender = tpeople[userNumberLocation].Gender,
@@ -94,7 +95,14 @@ function scene:create( event )
 					PDescription = tpeople[userNumberLocation].PDescription,
 					Username = tpeople[userNumberLocation].Username,
 					Password = tpeople[userNumberLocation].Password
-				}	
+				}
+				for i=1, table.maxn(thobbies), 1
+					do
+						if(tloggedInUser.UserID == thobbies[i].UserID)
+						then	
+							table.insert(tloggedInUserHobbies, thobbies[i].HobbyName)
+						end
+				end	
 				-- add user events and groups here soon
 				onFirstView()
 			else
@@ -145,7 +153,6 @@ function scene:create( event )
 	sceneGroup:insert( loginButton )
 	sceneGroup:insert( registrationText )
 	sceneGroup:insert( registerButton )
-	
 end
 
 function scene:show( event )

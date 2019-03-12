@@ -8,6 +8,9 @@ local composer = require "composer"
 local widget = require "widget"
 local scene = composer.newScene()
 
+--Variables
+otherHobbyRowData = ""
+
 function scene:create( event )
 	local sceneGroup = self.view
 
@@ -112,20 +115,22 @@ function scene:create( event )
 	local otherHobbiesTitle = display.newText( "Other Hobbies", display.contentCenterX, emailPParams.y + 40, native.systemFont, 32 )
 	otherHobbiesTitle:setFillColor( 0 )	
 
-	local function onRowRender( event )
+	function onRowRender( event )
 		local row = event.row
+		local id = row.index
 	
+		print(tloggedInUserHobbies[id])
 		local rowHeight = row.contentHeight
 		local rowWidth = row.contentWidth
 	
-		local rowTitle = display.newText( row, "Row " .. row.index, 0, 0, nil, 14 )
+		local rowTitle = display.newText( row, tloggedInUserHobbies[id], 0, 0, nil, 14 )
 		rowTitle:setFillColor( 0 )
 
 		rowTitle.anchorX = 0
 		rowTitle.x = 0
 		rowTitle.y = rowHeight * 0.5
 	end
-	
+
 	local otherHobbiesTableView = widget.newTableView(
 		{
 			left = 30,
@@ -137,10 +142,13 @@ function scene:create( event )
 			listener = scrollListener
 		}
 	)
- 
-	for i = 1, 40 do
+
+	for i=1, table.maxn(tloggedInUserHobbies), 1
+		do
 		otherHobbiesTableView:insertRow{}
 	end
+
+	
 
 	local scrollView = widget.newScrollView
 	{
