@@ -163,14 +163,19 @@ local function ConstructInitialDataInTables()
 	if hobbyGroupsCounter == 0 then
 		local groups = {
 			{
-				GroupName = "SCoD: Sewing Club of Davao",
-				NumberOfPeople = 0,
-				Description = "Sewing lovers, come join now!"
+				GroupName = "HCoD: Hiking Club of Davao",
+				NumberOfPeople = 1,
+				Description = "Hiking lovers, come join now!"
 			},
 			{
 				GroupName = "Interschool Volleyball Society",
-				NumberOfPeople = 0,
+				NumberOfPeople = 1,
 				Description = "Groups of volleyball lovers and enthusiasts from different schools."
+			},
+			{
+				GroupName = "Fallen Seraphim FC: Davao Branch",
+				NumberOfPeople = 1,
+				Description = "A branch extension of Fallen Seraphim here in Davao for FFXIV Players. "
 			},
 		}
 		
@@ -184,7 +189,67 @@ local function ConstructInitialDataInTables()
 		print("tgroups are not inserted with values")
 	end
 
-	-- create initial data for other tables soon
+	if eventsCounter == 0 then
+		local events = {
+			{
+				EventName = "Hike Drill: Session One",
+				EventDetails = "Conditioning exercises for the upcoming grand hike!",
+				EventVenue = "Ateneo de Davao Sports Complex",
+				EventParticipants = 1,
+				GroupID = 1
+			},
+			{
+				EventName = "42nd Faculty Volleyball Tournament",
+				EventDetails = "Tournament organized by different volleyball school secs for their coaches and teachers.",
+				EventVenue = "UIC Volleyball Court",
+				EventParticipants = 1,
+				GroupID = 2
+			},
+			{
+				EventName = "Treasure Hunt: Expedition Five",
+				EventDetails = "Gold mining event for the FC, officers please attend.",
+				EventVenue = "Treasure Map Locations",
+				EventParticipants = 1,
+				GroupID = 3
+			},
+		}
+		
+		for i = 1,#events do
+			local q = [[INSERT INTO Events VALUES ( NULL, "]]  .. events[i].EventName .. [[","]]
+															   .. events[i].EventDetails .. [[","]]
+															   .. events[i].EventVenue .. [[","]]
+															   .. events[i].EventParticipants .. [[","]]
+															   .. events[i].GroupID .. [[" );]]
+			db:exec( q )
+		end
+	else
+		print("tevents are not inserted with values")
+	end
+
+	if peopleEventsCounter == 0 then
+		local peopleEvents = {
+			{
+				EventID = 1,
+				UserID = 1,
+			},
+			{
+				EventID = 2,
+				UserID = 3,
+			},
+			{
+				EventID = 3,
+				UserID = 2,
+			},
+		}
+		
+		for i = 1,#peopleEvents do
+			local q = [[INSERT INTO People_Events VALUES ("]]  		  .. peopleEvents[i].EventID .. [[","]]
+															   		  .. peopleEvents[i].UserID .. [[" );]]
+			db:exec( q )
+		end
+	else
+		print("tpeopleEvents are not inserted with values")
+	end
 end
 
 local function LoadDataFromTables()
@@ -208,6 +273,20 @@ local function LoadDataFromTables()
 		peopleCounter = peopleCounter + 1
 	end
 
+	eventsCounter = 0;
+	for row in db:nrows( "SELECT * FROM Events" ) do
+		thobbies[#tevents+1] =
+		{
+			EventID = row.EventID,
+			EventName = row.EventName,
+			EventDetails = row.EventDetails,
+			EventVenue = row.EventVenue,
+			EventParticipants = row.EventParticipants,
+			GroupID = row.GroupID
+		}
+		eventsCounter = eventsCounter + 1
+	end
+
 	hobbiesCounter = 0;
 	for row in db:nrows( "SELECT * FROM Hobbies" ) do
 		thobbies[#thobbies+1] =
@@ -224,7 +303,9 @@ local function LoadDataFromTables()
 		tgroups[#tgroups+1] =
 		{
 			GroupID = row.GroupID,
-			GroupName = row.GroupName
+			GroupName = row.GroupName,
+			NumberOfPeople = row.NumberOfPeople,
+			Description = row.Description,
 		}
 		hobbyGroupsCounter = hobbyGroupsCounter + 1
 	end
@@ -237,6 +318,26 @@ local function LoadDataFromTables()
 			UserID = row.UserID
 		}
 		peopleHobbyGroupsCounter = peopleHobbyGroupsCounter + 1
+	end
+
+	peopleEventsCounter = 0;
+	for row in db:nrows( "SELECT * FROM People_Events" ) do
+		tpeopleEvents[#tpeopleEvents+1] =
+		{
+			EventID = row.EventID,
+			UserID = row.UserID
+		}
+		peopleEventsCounter = peopleEventsCounter + 1
+	end
+
+	peopleFriendsCounter = 0;
+	for row in db:nrows( "SELECT * FROM People_Friends" ) do
+		tpeopleFriends[#tpeopleFriends+1] =
+		{
+			UserID = row.UserID,
+			FriendID = row.FriendID
+		}
+		peopleFriendsCounter = peopleFriendsCounter + 1
 	end
 end
 
