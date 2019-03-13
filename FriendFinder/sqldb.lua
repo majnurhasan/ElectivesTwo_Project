@@ -241,7 +241,6 @@ local function ConstructInitialDataInTables()
 				UserID = 2,
 			},
 		}
-		
 		for i = 1,#peopleEvents do
 			local q = [[INSERT INTO People_Events VALUES ("]]  		  .. peopleEvents[i].EventID .. [[","]]
 															   		  .. peopleEvents[i].UserID .. [[" );]]
@@ -249,6 +248,30 @@ local function ConstructInitialDataInTables()
 		end
 	else
 		print("tpeopleEvents are not inserted with values")
+	end
+
+	if peopleHobbyGroupsCounter == 0 then
+		local peopleHobbyGroups = {
+			{
+				GroupID = 1,
+				UserID = 1,
+			},
+			{
+				GroupID = 2,
+				UserID = 3,
+			},
+			{
+				GroupID = 3,
+				UserID = 2,
+			},
+		}
+		for i = 1,#peopleHobbyGroups do
+			local q = [[INSERT INTO People_HobbyGroups VALUES ("]]  		  .. peopleHobbyGroups[i].GroupID .. [[","]]
+															   		 		  .. peopleHobbyGroups[i].UserID .. [[" );]]
+			db:exec( q )
+		end
+	else
+		print("tpeopleHobbyGroups are not inserted with values")
 	end
 end
 

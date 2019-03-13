@@ -157,7 +157,7 @@ function scene:create( event )
 	
 		local rowHeight = row.contentHeight
 		local rowWidth = row.contentWidth
-		rowEventTitle = ""
+		local rowEventTitle = ""
 		for i=1, table.maxn(tevents), 1
 			do
 				if(tloggedInUserEvents[id] == tevents[i].EventID)
@@ -192,6 +192,50 @@ function scene:create( event )
 		eventsAttendedTableView:insertRow{}
 	end
 
+	local hobbyGroupsTitle = display.newText( "Hobby Groups", display.contentCenterX, eventsAttendedTableView.y + 80, native.systemFont, 32 )
+	hobbyGroupsTitle:setFillColor( 0 )	
+
+	function onRowRenderThree( event )
+		local row = event.row
+		local id = row.index
+	
+		local rowHeight = row.contentHeight
+		local rowWidth = row.contentWidth
+		local rowEventTitle = ""
+		for i=1, table.maxn(tgroups), 1
+			do
+				if(tloggedInUserHobbyGroups[id] == tgroups[i].GroupID)
+				then
+					rowEventTitle = tgroups[i].GroupName
+				end
+		end
+
+		local rowTitle = display.newText( row, rowEventTitle, 0, 0, nil, 14 )
+		
+		rowTitle:setFillColor( 0 )
+
+		rowTitle.anchorX = 0
+		rowTitle.x = 0
+		rowTitle.y = rowHeight * 0.5
+	end
+
+	local hobbyGroupsTableView = widget.newTableView(
+		{
+			left = 30,
+			top = 600,
+			height = 80,
+			width = 250,
+			onRowRender = onRowRenderThree,
+			onRowTouch = onRowTouch,
+			listener = scrollListener
+		}
+	)
+
+	for i=1, table.maxn(tloggedInUserHobbyGroups), 1
+		do
+			hobbyGroupsTableView:insertRow{}
+	end
+
 	local scrollView = widget.newScrollView
 	{
 		left = 0,
@@ -214,8 +258,11 @@ function scene:create( event )
 	scrollView:insert( emailHeader )
 	scrollView:insert( otherHobbiesTitle )
 	scrollView:insert( eventsTitle )
+	scrollView:insert( hobbyGroupsTitle )
 	scrollView:insert( otherHobbiesTableView )
 	scrollView:insert( eventsAttendedTableView )
+	scrollView:insert( hobbyGroupsTableView )
+	
 
 
 	sceneGroup:insert( background )

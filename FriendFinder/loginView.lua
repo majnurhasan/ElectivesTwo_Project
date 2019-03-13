@@ -110,6 +110,13 @@ function scene:create( event )
 							table.insert(tloggedInUserEvents, tpeopleEvents[i].EventID)
 						end
 				end
+				for i=1, table.maxn(tpeopleHobbyGroups), 1
+					do
+						if(tloggedInUser.UserID == tpeopleHobbyGroups[i].UserID)
+						then	
+							table.insert(tloggedInUserHobbyGroups, tpeopleHobbyGroups[i].GroupID)
+						end
+				end
 				onFirstView()
 			else
 				local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
