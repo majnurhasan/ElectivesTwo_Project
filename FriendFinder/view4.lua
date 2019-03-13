@@ -8,8 +8,9 @@ local composer = require "composer"
 local widget = require "widget"
 local scene = composer.newScene()
 
+
+
 --Variables
-otherHobbyRowData = ""
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -118,8 +119,7 @@ function scene:create( event )
 	function onRowRender( event )
 		local row = event.row
 		local id = row.index
-	
-		print(tloggedInUserHobbies[id])
+
 		local rowHeight = row.contentHeight
 		local rowWidth = row.contentWidth
 	
@@ -155,11 +155,19 @@ function scene:create( event )
 		local row = event.row
 		local id = row.index
 	
-		print(tloggedInUserEvents[id])
 		local rowHeight = row.contentHeight
 		local rowWidth = row.contentWidth
-	
-		local rowTitle = display.newText( row, tloggedInUserEvents[id], 0, 0, nil, 14 )
+		rowEventTitle = ""
+		for i=1, table.maxn(tevents), 1
+			do
+				if(tloggedInUserEvents[id] == tevents[i].EventID)
+				then
+					rowEventTitle = tevents[i].EventName
+				end
+		end
+
+		local rowTitle = display.newText( row, rowEventTitle, 0, 0, nil, 14 )
+		
 		rowTitle:setFillColor( 0 )
 
 		rowTitle.anchorX = 0

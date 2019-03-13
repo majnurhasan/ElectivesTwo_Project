@@ -275,7 +275,7 @@ local function LoadDataFromTables()
 
 	eventsCounter = 0;
 	for row in db:nrows( "SELECT * FROM Events" ) do
-		thobbies[#tevents+1] =
+		tevents[#tevents+1] =
 		{
 			EventID = row.EventID,
 			EventName = row.EventName,
