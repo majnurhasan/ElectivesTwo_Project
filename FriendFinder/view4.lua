@@ -135,7 +135,7 @@ function scene:create( event )
 		{
 			left = 30,
 			top = 320,
-			height = 150,
+			height = 80,
 			width = 250,
 			onRowRender = onRowRender,
 			onRowTouch = onRowTouch,
@@ -148,7 +148,41 @@ function scene:create( event )
 		otherHobbiesTableView:insertRow{}
 	end
 
+	local eventsTitle = display.newText( "Events Attended", display.contentCenterX, otherHobbiesTableView.y + 80, native.systemFont, 32 )
+	eventsTitle:setFillColor( 0 )	
+
+	function onRowRenderTwo( event )
+		local row = event.row
+		local id = row.index
 	
+		print(tloggedInUserEvents[id])
+		local rowHeight = row.contentHeight
+		local rowWidth = row.contentWidth
+	
+		local rowTitle = display.newText( row, tloggedInUserEvents[id], 0, 0, nil, 14 )
+		rowTitle:setFillColor( 0 )
+
+		rowTitle.anchorX = 0
+		rowTitle.x = 0
+		rowTitle.y = rowHeight * 0.5
+	end
+
+	local eventsAttendedTableView = widget.newTableView(
+		{
+			left = 30,
+			top = 460,
+			height = 80,
+			width = 250,
+			onRowRender = onRowRenderTwo,
+			onRowTouch = onRowTouch,
+			listener = scrollListener
+		}
+	)
+
+	for i=1, table.maxn(tloggedInUserEvents), 1
+		do
+		eventsAttendedTableView:insertRow{}
+	end
 
 	local scrollView = widget.newScrollView
 	{
@@ -171,7 +205,9 @@ function scene:create( event )
 	scrollView:insert( personTypeHeader )
 	scrollView:insert( emailHeader )
 	scrollView:insert( otherHobbiesTitle )
+	scrollView:insert( eventsTitle )
 	scrollView:insert( otherHobbiesTableView )
+	scrollView:insert( eventsAttendedTableView )
 
 
 	sceneGroup:insert( background )
