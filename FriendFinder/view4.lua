@@ -8,9 +8,8 @@ local composer = require "composer"
 local widget = require "widget"
 local scene = composer.newScene()
 
-
-
 --Variables
+
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -232,7 +231,7 @@ function scene:create( event )
 	)
 
 	for i=1, table.maxn(tloggedInUserHobbyGroups), 1
-		do
+	do
 			hobbyGroupsTableView:insertRow{}
 	end
 
@@ -280,8 +279,8 @@ function scene:create( event )
 		top = 0,
 		width = display.contentWidth,
 		height =431,
-		topPadding = 20,
-		bottomPadding = 20,
+		topPadding = 30,
+		bottomPadding = 30,
 		horizontalScrollDisabled = true,
 		verticalScrollDisabled = false
 	}

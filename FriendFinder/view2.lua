@@ -42,7 +42,7 @@ function scene:create( event )
 		buttons = tabButtons
 	}
 	
-	local title = display.newText( "Friends Page", display.contentCenterX, 125, native.systemFont, 32 )
+	local title = display.newText( "Interaction History", display.contentCenterX, 30, native.systemFont, 32 )
 	title:setFillColor( 0 )	
 	
 
