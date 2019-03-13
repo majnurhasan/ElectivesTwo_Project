@@ -236,6 +236,44 @@ function scene:create( event )
 			hobbyGroupsTableView:insertRow{}
 	end
 
+	local function updateUserInfoButtonEvent( event )
+		if ( event.phase == "ended" ) then
+			print("Update User Info")
+		end
+	end
+
+	local function deleteAccountButtonEvent( event )
+		if ( event.phase == "ended" ) then
+			print("Delete Account")
+		end
+	end
+
+	local updateUserInfoButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button1.png",
+			overFile="button1-down.png",
+			label = "",
+			onEvent = updateUserInfoButtonEvent,
+			x = 70,
+			y = 710
+		}
+	)
+
+	local deleteAccountButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button2.png",
+			overFile="button2-down.png",
+			label = "",
+			onEvent = deleteAccountButtonEvent,
+			x = 250,
+			y = 710
+		}
+	)
+
 	local scrollView = widget.newScrollView
 	{
 		left = 0,
@@ -262,6 +300,8 @@ function scene:create( event )
 	scrollView:insert( otherHobbiesTableView )
 	scrollView:insert( eventsAttendedTableView )
 	scrollView:insert( hobbyGroupsTableView )
+	scrollView:insert( updateUserInfoButton )
+	scrollView:insert( deleteAccountButton )
 	
 
 

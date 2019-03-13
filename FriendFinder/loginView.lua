@@ -125,7 +125,6 @@ function scene:create( event )
 	end
 
 	local function registerButtonEvent( event )
- 
 		if ( event.phase == "ended" ) then
 			onRegistrationView()
 		end
