@@ -212,6 +212,20 @@ local function ConstructInitialDataInTables()
 				EventParticipants = 1,
 				GroupID = 3
 			},
+			{
+				EventName = "Hide and Seek in Eorzean Areas",
+				EventDetails = "FC Social Event, feel free to participate and earn prizes!",
+				EventVenue = "FC House in Lavender Beds",
+				EventParticipants = 1,
+				GroupID = 3
+			},
+			{
+				EventName = "Sigmascape Raid Runs",
+				EventDetails = "Latest content run for Stormblood Expansion, meetup at FC House.",
+				EventVenue = "Omega's Lair",
+				EventParticipants = 1,
+				GroupID = 3
+			},
 		}
 		
 		for i = 1,#events do
