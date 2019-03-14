@@ -17,6 +17,8 @@ tloggedInUserHobbies = {}
 tloggedInUserEvents = {}
 tloggedInUserHobbyGroups = {}
 tloggedInUserFriends = {}
+-- Passed on Global Variables
+selectedGroup = {}
 
 -- call modules
 local widget = require "widget"

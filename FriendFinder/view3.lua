@@ -8,7 +8,10 @@ local composer = require "composer"
 local widget = require "widget"
 local scene = composer.newScene()
 
---Variables
+-- Variables
+
+-- Default Parameters
+selectedGroup = tgroups[1]
 
 
 function scene:create( event )
@@ -59,7 +62,7 @@ function scene:create( event )
 	local groupNameGHeader = display.newText( groupNameGParams )
 	groupNameGHeader:setFillColor( 0 )
 
-	local groupNameContentGParams = { text = "", 
+	local groupNameContentGParams = { text = tgroups[1].GroupName, 
 						x = display.contentCenterX, 
 						y = groupNameGParams.y + 30, 
 						width = 250, height = 50, 
@@ -77,7 +80,7 @@ function scene:create( event )
 	local groupDescriptionGHeader = display.newText( groupDesriptionGParams )
 	groupDescriptionGHeader:setFillColor( 0 )
 
-	local groupDesriptionContentGParams = { text = "", 
+	local groupDesriptionContentGParams = { text = tgroups[1].Description, 
 						x = display.contentCenterX, 
 						y = groupDesriptionGParams.y + 45, 
 						width = 300, height = 80, 
@@ -100,6 +103,7 @@ function scene:create( event )
 		rowTitle.anchorX = 0
 		rowTitle.x = 0
 		rowTitle.y = rowHeight * 0.5
+
 	end
 
 	function ShowDetailsForHobbyGroupGTableView( event )
@@ -108,6 +112,8 @@ function scene:create( event )
 		
 		groupNameContentGHeader.text =  tgroups[id].GroupName  
 		groupDescriptionContentGHeader.text = tgroups[id].Description
+
+		selectedGroup = tgroups[id]
     	return true
 	end
 
