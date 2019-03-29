@@ -35,6 +35,7 @@ local function InitializeTables()
 	local wavesTableSetup = [[CREATE TABLE IF NOT EXISTS Waves ( WaveID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 																							WaveDescription, 
 																							WaveDate,
+																							WaveState,
 																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( wavesTableSetup )
@@ -42,6 +43,7 @@ local function InitializeTables()
 	local rwavesTableSetup = [[CREATE TABLE IF NOT EXISTS RWaves ( RWaveID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 																							RWaveStatus, 
 																							RWaveDate,
+																							RWaveState,
 																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( rwavesTableSetup )
@@ -115,7 +117,7 @@ local function ConstructInitialDataInTables()
 				PDescription = "My name is John but I'm not your ordinary John.",
 				Username = "jsmith",
 				Password = "jsmith4ever",
-				SignalLocation = "none"
+				SignalLocation = "MTS, Keepsakes"
 			},
 			{
 				FirstName = "Majdi",
@@ -129,7 +131,7 @@ local function ConstructInitialDataInTables()
 				PDescription = "I literally like FF XIV, let's do duty runs together",
 				Username = "majx804",
 				Password = "412maj612",
-				SignalLocation = "none"
+				SignalLocation = "Ateneo Roxas"
 			},
 			{
 				FirstName = "Emery",
@@ -143,7 +145,7 @@ local function ConstructInitialDataInTables()
 				PDescription = "Let's be friends, genuinely.",
 				Username = "freshofftheboat",
 				Password = "ehuang123",
-				SignalLocation = "none"
+				SignalLocation = "Chinatown"
 			},
 		}
 		
@@ -382,6 +384,7 @@ local function LoadDataFromTables()
 			WaveID = row.WaveID,
 			WaveDescription = row.WaveDescription,
 			WaveDate = row.WaveDate,
+			WaveState = row.WaveState,
 			UserID = row.UserID
 		}
 		wavesCounter = wavesCounter + 1
@@ -394,6 +397,7 @@ local function LoadDataFromTables()
 			RWaveID = row.RWaveID,
 			RWaveStatus = row.RWaveStatus,
 			RWaveDate = row.RWaveDate,
+			RWaveState = row.RWaveState,
 			UserID = row.UserID
 		}
 		wavesCounter = wavesCounter + 1

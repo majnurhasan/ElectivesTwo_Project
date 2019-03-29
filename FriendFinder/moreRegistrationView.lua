@@ -84,7 +84,8 @@ function scene:create( event )
 						PersonType = tpersonRStack.PersonType,
 						Username = tpersonRStack.Username,
 						Password = tpersonRStack.Password,
-						PDescription = personalDescriptionTextBox.text
+						PDescription = personalDescriptionTextBox.text,
+						SignalLocation = "none"
 					}
 				}
 				
@@ -99,7 +100,8 @@ function scene:create( event )
 																	.. people[i].PersonType .. [[","]]
 																	.. people[i].PDescription .. [[","]]
 																	.. people[i].Username .. [[","]]
-																	.. people[i].Password .. [[" );]]
+																	.. people[i].Password .. [[","]]
+																	.. people[i].SignalLocation .. [[" );]]
 					db:exec( q )
 				end
 

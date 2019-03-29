@@ -24,8 +24,13 @@ tloggedInUserEvents = {}
 tloggedInUserHobbyGroups = {}
 tloggedInUserFriends = {}
 tloggedInUserWaves = {}
+tloggedInUserRWaves = {}
 -- Passed on Global Variables
 selectedGroup = {}
+selectedNearbyPerson = {}
+selectedNearbyPersonHobbies = {}
+selectedNearbyPersonEvents = {}
+selectedNearbyPersonHobbyGroups = {}
 
 -- call modules
 local widget = require "widget"

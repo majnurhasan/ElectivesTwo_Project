@@ -117,6 +117,7 @@ function scene:create( event )
 							table.insert(tloggedInUserHobbyGroups, tpeopleHobbyGroups[i].GroupID)
 						end
 				end
+				-- insert waves tables of logged in user
 				onFirstView()
 			else
 				local alert = native.showAlert( "Error", "Invalid Username and Password!", {"OK"}, onComplete )
