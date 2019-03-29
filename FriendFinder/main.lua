@@ -31,6 +31,17 @@ selectedNearbyPerson = {}
 selectedNearbyPersonHobbies = {}
 selectedNearbyPersonEvents = {}
 selectedNearbyPersonHobbyGroups = {}
+selectedWave = {}
+selectedInterestedWave = {}
+selectedWavePerson = {}
+selectedWavePersonHobbies = {}
+selectedWavePersonEvents = {}
+selectedWavePersonHobbyGroups = {}
+selectedInterestedWave = {}
+selectedInterestedWavePerson = {}
+selectedInterestedWavePersonHobbies = {}
+selectedInterestedWavePersonEvents = {}
+selectedInterestedWavePersonHobbyGroups = {}
 
 -- call modules
 local widget = require "widget"

@@ -94,8 +94,10 @@ function scene:create( event )
 			end
 
 			twaves = {}
-			tloggedInUserWaves = {}
 			sqldb.LoadDataFromTables()
+			tloggedInUserWaves = {}
+			tpeopleWaves = {}
+			
 
 			for i=1, table.maxn(twaves), 1
 					do	
@@ -110,6 +112,7 @@ function scene:create( event )
 															   		  .. latestID .. [[" );]]
 			db:exec( q )
 
+			sqldb.LoadDataFromTables()
 			sqldb.CloseDatabase()
 			local alert = native.showAlert( "Wave Sent", "The person can know acknowledge your presence!", {"OK"}, onComplete )
 		end
