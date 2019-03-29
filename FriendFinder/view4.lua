@@ -7,6 +7,7 @@
 local composer = require "composer" 
 local widget = require "widget"
 local scene = composer.newScene()
+local globalFunctions = require "globalFunctions"
 
 --Variables
 
@@ -241,6 +242,7 @@ function scene:create( event )
 
 	local function logoutUserButtonEvent( event )
 		if ( event.phase == "ended" ) then
+			globalFunctions.EmptyTablesCommand()
 			onLoginView()
 		end
 	end
