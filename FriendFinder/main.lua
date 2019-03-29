@@ -3,6 +3,8 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
+date = os.date( "*t" ) -- local time right now
+
 -- Local Tables
 tpeople = {}
 thobbies = {}
@@ -49,6 +51,10 @@ onLoginView()
 -- experiment back end stuff below:
 local majdi = person.new("Majdi", "Nurhasan")
 majdi.sayName()
+
+print( date.year, date.month )  
+print( date.hour, date.min )    
+print("Date: " ..  os.date( "%x" ) .. "  Time: " .. date.hour .. ":" .. date.min)
 
 
 
