@@ -22,7 +22,8 @@ local function InitializeTables()
 																							PersonType,
 																							PDescription, 
 																							Username, 
-																							Password);]]
+																							Password,
+																							SignalLocation);]]
 	db:exec( peopleTableSetup )
 
 	local hobbiesTableSetup = [[CREATE TABLE IF NOT EXISTS Hobbies ( HobbyID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -30,6 +31,13 @@ local function InitializeTables()
 																							UserID INTEGER NOT NULL,
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( hobbiesTableSetup )
+
+	local wavesTableSetup = [[CREATE TABLE IF NOT EXISTS Waves ( WaveID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+																							WaveDescription, 
+																							WaveDate,
+																							UserID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
+	db:exec( wavesTableSetup )
 
 	local hobbyGroupsTableSetup = [[CREATE TABLE IF NOT EXISTS HobbyGroups ( GroupID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 																							GroupName,
@@ -63,6 +71,20 @@ local function InitializeTables()
 																							FOREIGN KEY(UserID) REFERENCES People(UserID),
 																							FOREIGN KEY(FriendID) REFERENCES People(UserID));]]
 	db:exec( peopleFriendsSetup )
+
+	local peopleFriendsSetup = [[CREATE TABLE IF NOT EXISTS People_Friends ( UserID INTEGER NOT NULL,
+																							FriendID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID),
+																							FOREIGN KEY(FriendID) REFERENCES People(UserID));]]
+	db:exec( peopleFriendsSetup )
+
+	local peopleWavesSetup = [[CREATE TABLE IF NOT EXISTS People_Waves ( UserID INTEGER NOT NULL,
+																							WaveID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID),
+																							FOREIGN KEY(WaveID) REFERENCES Waves(WaveID));]]
+	db:exec( peopleWavesSetup )
+
+	
 end
 
 local function ConstructInitialDataInTables()
@@ -79,7 +101,8 @@ local function ConstructInitialDataInTables()
 				PersonType = "Extrovert",
 				PDescription = "My name is John but I'm not your ordinary John.",
 				Username = "jsmith",
-				Password = "jsmith4ever"
+				Password = "jsmith4ever",
+				SignalLocation = "none"
 			},
 			{
 				FirstName = "Majdi",
@@ -92,7 +115,8 @@ local function ConstructInitialDataInTables()
 				PersonType = "Ambivert",
 				PDescription = "I literally like FF XIV, let's do duty runs together",
 				Username = "majx804",
-				Password = "412maj612"
+				Password = "412maj612",
+				SignalLocation = "none"
 			},
 			{
 				FirstName = "Emery",
@@ -105,7 +129,8 @@ local function ConstructInitialDataInTables()
 				PersonType = "Extrovert",
 				PDescription = "Let's be friends, genuinely.",
 				Username = "freshofftheboat",
-				Password = "ehuang123"
+				Password = "ehuang123",
+				SignalLocation = "none"
 			},
 		}
 		
@@ -120,7 +145,8 @@ local function ConstructInitialDataInTables()
 															 .. people[i].PersonType .. [[","]]
 															 .. people[i].PDescription .. [[","]]
 															 .. people[i].Username .. [[","]]
-															 .. people[i].Password .. [[" );]]
+															 .. people[i].Password .. [[","]]
+															 .. people[i].SignalLocation .. [[" );]]
 			db:exec( q )
 		end
 	else
@@ -305,7 +331,8 @@ local function LoadDataFromTables()
 			PersonType = row.PersonType,
 			PDescription = row.PDescription,
 			Username = row.Username,
-			Password = row.Password
+			Password = row.Password,
+			SignalLocation = row.SignalLocation
 		}
 		peopleCounter = peopleCounter + 1
 	end
@@ -333,6 +360,18 @@ local function LoadDataFromTables()
 			UserID = row.UserID
 		}
 		hobbiesCounter = hobbiesCounter + 1
+	end
+
+	wavesCounter = 0;
+	for row in db:nrows( "SELECT * FROM Waves" ) do
+		twaves[#twaves+1] =
+		{
+			WaveID = row.WaveID,
+			WaveDescription = row.WaveDescription,
+			WaveDate = row.WaveDate,
+			UserID = row.UserID
+		}
+		wavesCounter = wavesCounter + 1
 	end
 
 	hobbyGroupsCounter = 0;
@@ -375,6 +414,16 @@ local function LoadDataFromTables()
 			FriendID = row.FriendID
 		}
 		peopleFriendsCounter = peopleFriendsCounter + 1
+	end
+
+	peopleWavesCounter = 0;
+	for row in db:nrows( "SELECT * FROM People_Waves" ) do
+		tpeopleWaves[#tpeopleWaves+1] =
+		{
+			UserID = row.UserID,
+			WaveID = row.WaveID
+		}
+		peopleWavesCounter = peopleWavesCounter + 1
 	end
 end
 

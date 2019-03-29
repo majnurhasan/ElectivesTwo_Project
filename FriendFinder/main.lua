@@ -8,15 +8,18 @@ tpeople = {}
 thobbies = {}
 tgroups = {}
 tevents = {}
+twaves = {}
 tpeopleHobbyGroups = {}
 tpeopleFriends = {}
 tpeopleEvents = {}
+tpeopleWaves = {}
 -- Person logged in
 tloggedInUser = {}
 tloggedInUserHobbies = {}
 tloggedInUserEvents = {}
 tloggedInUserHobbyGroups = {}
 tloggedInUserFriends = {}
+tloggedInUserWaves = {}
 -- Passed on Global Variables
 selectedGroup = {}
 

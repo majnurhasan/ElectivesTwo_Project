@@ -12,7 +12,7 @@ local glCommands = {}
         tloggedInUserEvents = {}
         tloggedInUserHobbyGroups = {}
         tloggedInUserFriends = {}
-        
+        tloggedInUserWaves = {}
         -- Passed on Global Variables
         selectedGroup = {}
     end
