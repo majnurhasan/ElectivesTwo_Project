@@ -131,7 +131,12 @@ function scene:create( event )
 
 	for i=1, table.maxn(tgroups), 1
 	do
-		hobbyGroupsGTableView:insertRow{}
+		hobbyGroupsGTableView:insertRow({
+            isCategory = false,
+            rowHeight = 36,
+            rowColor = { default={1,1,1}, over={1,0.5,0,0.2} },
+            lineColor = { 0.5, 0.5, 0.5 }
+        })
 	end
 
 	local function onEventsView( event )

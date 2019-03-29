@@ -149,7 +149,12 @@ function scene:create( event )
 
 	for i=1, table.maxn(tloggedInUserHobbies), 1
 		do
-		otherHobbiesTableView:insertRow{}
+		otherHobbiesTableView:insertRow({
+            isCategory = false,
+            rowHeight = 36,
+            rowColor = { default={1,1,1}, over={1,0.5,0,0.2} },
+            lineColor = { 0.5, 0.5, 0.5 }
+        })
 	end
 
 	local eventsTitle = display.newText( "Events Attended", display.contentCenterX, otherHobbiesTableView.y + 80, native.systemFont, 32 )
@@ -193,7 +198,12 @@ function scene:create( event )
 
 	for i=1, table.maxn(tloggedInUserEvents), 1
 		do
-		eventsAttendedTableView:insertRow{}
+		eventsAttendedTableView:insertRow({
+            isCategory = false,
+            rowHeight = 36,
+            rowColor = { default={1,1,1}, over={1,0.5,0,0.2} },
+            lineColor = { 0.5, 0.5, 0.5 }
+        })
 	end
 
 	local hobbyGroupsTitle = display.newText( "Hobby Groups", display.contentCenterX, eventsAttendedTableView.y + 80, native.systemFont, 32 )
@@ -237,7 +247,12 @@ function scene:create( event )
 
 	for i=1, table.maxn(tloggedInUserHobbyGroups), 1
 	do
-			hobbyGroupsTableView:insertRow{}
+			hobbyGroupsTableView:insertRow({
+				isCategory = false,
+				rowHeight = 36,
+				rowColor = { default={1,1,1}, over={1,0.5,0,0.2} },
+				lineColor = { 0.5, 0.5, 0.5 }
+			})
 	end
 
 	local function logoutUserButtonEvent( event )

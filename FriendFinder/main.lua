@@ -58,9 +58,7 @@ onLoginView()
 -- experiment back end stuff below:
 local majdi = person.new("Majdi", "Nurhasan")
 majdi.sayName()
-
-print( date.year, date.month )  
-print( date.hour, date.min )    
+print("Date and Time below:")  
 print("Date: " ..  os.date( "%x" ) .. "  Time: " .. date.hour .. ":" .. date.min)
 
 

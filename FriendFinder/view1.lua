@@ -7,7 +7,11 @@
 local composer = require "composer" 
 local widget = require "widget"
 local scene = composer.newScene()
+local sqldb = require "sqldb"
 
+-- Special Variables
+passedUserID = 0
+nearbyPersonsStack = {}
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -48,7 +52,7 @@ function scene:create( event )
 
 	local nearbyPersonHobbyParams = { text = ":. Main Hobby .:", 
 						x = display.contentCenterX, 
-						y = title.y + 190, 
+						y = title.y + 150, 
 						width = 250, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "center" }
@@ -70,7 +74,44 @@ function scene:create( event )
 
 	local function sendWaveButtonEvent( event )
 		if ( event.phase == "ended" ) then
-			--send Wave here, enter to database
+			local latestID = 0
+			sqldb.OpenDatabase()
+			local wave = {
+				{
+					WaveDescription = "You seem awesome! Wanna hang out?",
+					WaveDate = "Date: " ..  os.date( "%x" ) .. "  Time: " .. date.hour .. ":" .. date.min,
+					WaveState = "1",
+					UserID = tloggedInUser.UserID
+				}
+			}
+
+			for i = 1,#wave do
+				local q = [[INSERT INTO Waves VALUES ( NULL, "]] .. wave[i].WaveDescription .. [[","]] 
+																.. wave[i].WaveDate .. [[","]] 
+																.. wave[i].WaveState .. [[","]] 
+																.. wave[i].UserID .. [[" );]]
+				db:exec( q )
+			end
+
+			twaves = {}
+			tloggedInUserWaves = {}
+			sqldb.LoadDataFromTables()
+
+			for i=1, table.maxn(twaves), 1
+					do	
+						latestID = latestID + 1
+						if(tloggedInUser.UserID == twaves[i].UserID)
+						then	
+							table.insert(tloggedInUserWaves, twaves[i])
+						end
+			end
+
+			local q = [[INSERT INTO People_Waves VALUES ("]]  		  .. selectedNearbyPerson.UserID .. [[","]]
+															   		  .. latestID .. [[" );]]
+			db:exec( q )
+
+			sqldb.CloseDatabase()
+			local alert = native.showAlert( "Wave Sent", "The person can know acknowledge your presence!", {"OK"}, onComplete )
 		end
 	end
 
@@ -108,11 +149,11 @@ function scene:create( event )
 	function onRowRenderFive( event )
 		local row = event.row
 		local id = row.index
-	
+
 		local rowHeight = row.contentHeight
 		local rowWidth = row.contentWidth
-
-		local rowTitle = display.newText( row, tpeople[id].SignalLocation, 0, 0, nil, 14 )
+		
+		local rowTitle = display.newText( row, tpeople[passedUserID].SignalLocation, 0, 0, nil, 14 )
 		
 		rowTitle:setFillColor( 0 )
 
@@ -124,11 +165,25 @@ function scene:create( event )
 	function ShowDetailsForNearbyPeopleTableView( event )
 		local row = event.target
    		local id = row.index 
+		local counter = 0
+		while(counter ~= id)
+		do
+			counter = counter + 1
+		end
 		
-		nearbyPersonHobbyContent.text =  tpeople[id].Hobby  
+		for i=1, table.maxn(tpeople), 1
+		do
+			if(nearbyPersonsStack[counter] == tpeople[i].UserID)
+			then
+					selectedNearbyPerson = tpeople[i]
+			end
+		end
 
-		selectedNearbyPerson = tpeople[id]
+		nearbyPersonHobbyContent.text =  selectedNearbyPerson.Hobby  
 
+		selectedNearbyPersonHobbies = {}
+		selectedNearbyPersonEvents = {}
+		selectedNearbyPersonHobbyGroups = {}
 		for i=1, table.maxn(thobbies), 1
 			do
 				if(selectedNearbyPerson.UserID == thobbies[i].UserID)
@@ -160,7 +215,7 @@ function scene:create( event )
 		{
 			left = 30,
 			top = title.y + 30,
-			height = 120,
+			height = 80,
 			width = 250,
 			onRowRender = onRowRenderFive,
 			onRowTouch = ShowDetailsForNearbyPeopleTableView,
@@ -170,11 +225,46 @@ function scene:create( event )
 
 	for i=1, table.maxn(tpeople), 1
 	do
-		if(tpeople[i].SignalLocation ~= "none" and tpeople[i].UserID == tloggedInUser.UserID) 
+		if(tpeople[i].SignalLocation ~= "none" and tpeople[i].UserID ~= tloggedInUser.UserID) 
 		then
-			nearbyPeopleTableView:insertRow{}
+			passedUserID = i
+			table.insert(nearbyPersonsStack,i)
+			nearbyPeopleTableView:insertRow({
+				isCategory = false,
+				rowHeight = 36,
+				rowColor = { default={1,1,1}, over={1,0.5,0,0.2} },
+				lineColor = { 0.5, 0.5, 0.5 }
+			})
 		end
 	end
+
+	newSignalLocationtitle = display.newText( "Signal-Ur-Location", display.contentCenterX, sendWaveButton.y + 78, native.systemFont, 32 )
+	newSignalLocationtitle:setFillColor( 0 )
+
+	local function updateLocationButtonEvent( event )
+		if ( event.phase == "ended" ) then
+			sqldb.OpenDatabase()
+			local q1 = "UPDATE People SET SignalLocation=\"" .. signalLocationTextField.text .. "\" WHERE UserID=" .. tloggedInUser.UserID .. ";"
+			db:exec( q1 )
+			sqldb.CloseDatabase()
+			
+			signalLocationTextField.text = ""
+			local alert = native.showAlert( "Signal Sent", "You have sucessfully logged where you're at!", {"OK"}, onComplete )
+		end
+	end
+
+	local updateLocationButton = widget.newButton(
+		{
+			width = 40,
+			height = 40	,
+			defaultFile="button1.png",
+			overFile="button1-down.png",
+			label = "",
+			onEvent = updateLocationButtonEvent,
+			x = display.contentCenterX,
+			y = newSignalLocationtitle.y + 95
+		}
+	)
 
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
@@ -184,6 +274,8 @@ function scene:create( event )
 	sceneGroup:insert( nearbyPersonHobbyContent )
 	sceneGroup:insert( sendWaveButton )
 	sceneGroup:insert( viewNearbyPersonDetailsButton )
+	sceneGroup:insert( newSignalLocationtitle )
+	sceneGroup:insert( updateLocationButton	 )
 end
 
 function scene:show( event )
@@ -193,6 +285,13 @@ function scene:show( event )
 	if phase == "will" then
 
 	elseif phase == "did" then
+		signalLocationTextField = native.newTextField( display.contentCenterX, newSignalLocationtitle.y + 50, 250, 35)
+		signalLocationTextField:setTextColor( 0 )
+		signalLocationTextField.isEditable = true
+		signalLocationTextField.size = 20
+		signalLocationTextField.isSecure = false
+
+		sceneGroup:insert( signalLocationTextField )
 
 	end	
 end
@@ -202,7 +301,8 @@ function scene:hide( event )
 	local phase = event.phase
 	
 	if event.phase == "will" then
-
+		signalLocationTextField:removeSelf()
+        signalLocationTextField = nil
 	elseif phase == "did" then
 
 	end
