@@ -33,6 +33,10 @@ function scene:create( event )
 		composer.gotoScene( "view4" )
 	end
 
+	local function onLoginView( event )
+		composer.gotoScene( "loginView" )
+	end
+
 	local tabButtons = {
 		{ label="Finder", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onFirstView },
 		{ label="Friends", defaultFile="button1.png", overFile="button1-down.png", width = 32, height = 32, onPress=onSecondView },
@@ -235,9 +239,9 @@ function scene:create( event )
 			hobbyGroupsTableView:insertRow{}
 	end
 
-	local function updateUserInfoButtonEvent( event )
+	local function logoutUserButtonEvent( event )
 		if ( event.phase == "ended" ) then
-			print("Update User Info")
+			onLoginView()
 		end
 	end
 
@@ -247,14 +251,14 @@ function scene:create( event )
 		end
 	end
 
-	local updateUserInfoButton = widget.newButton(
+	local logoutUserButton = widget.newButton(
 		{
 			width = 40,
 			height = 40	,
 			defaultFile="button1.png",
 			overFile="button1-down.png",
 			label = "",
-			onEvent = updateUserInfoButtonEvent,
+			onEvent = logoutUserButtonEvent,
 			x = 70,
 			y = 710
 		}
@@ -299,7 +303,7 @@ function scene:create( event )
 	scrollView:insert( otherHobbiesTableView )
 	scrollView:insert( eventsAttendedTableView )
 	scrollView:insert( hobbyGroupsTableView )
-	scrollView:insert( updateUserInfoButton )
+	scrollView:insert( logoutUserButton )
 	scrollView:insert( deleteAccountButton )
 	
 

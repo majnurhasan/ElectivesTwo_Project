@@ -140,7 +140,7 @@ function scene:create( event )
 	
 	local function sendRequestToJoinGroupButtonEvent( event )
 		if ( event.phase == "ended" ) then
-			print("Request to join group sent")
+			local alert = native.showAlert( "Request Sent", "A request to join the Hobby Group has been sent.", {"OK"}, onComplete )
 		end
 	end
 

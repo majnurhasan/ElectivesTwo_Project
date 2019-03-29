@@ -24,27 +24,9 @@ function scene:create( event )
 
 	eventsETableViewVerticalPlacement = titleForEventView.y + 30
 
-	local eventNameEParams = { text = ":. Event Name .:", 
-						x = display.contentCenterX, 
-						y = eventsETableViewVerticalPlacement + 160, 
-						width = 250, height = 50, 
-						font = native.systemFont, fontSize = 20, 
-						align = "center" }
-	local eventNameEHeader = display.newText( eventNameEParams )
-	eventNameEHeader:setFillColor( 0 )
-
-	local eventNameContentEParams = { text = "", 
-						x = display.contentCenterX, 
-						y = eventNameEParams.y + 30, 
-						width = 250, height = 50, 
-						font = native.systemFont, fontSize = 20, 
-						align = "center" }
-	eventNameContentEHeader = display.newText( eventNameContentEParams )
-	eventNameContentEHeader:setFillColor( 0 )
-
 	local eventVenueEParams = { text = ":. Event Venue .:", 
 						x = display.contentCenterX, 
-						y = eventNameContentEParams.y + 40, 
+						y = eventsETableViewVerticalPlacement + 160, 
 						width = 250, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "center" }
@@ -62,7 +44,7 @@ function scene:create( event )
 
 	local eventDescriptionEParams = { text = ":. Details .:", 
 						x = display.contentCenterX, 
-						y = eventVenueContentEParams.y + 40, 
+						y = eventVenueContentEParams.y + 60, 
 						width = 250, height = 50, 
 						font = native.systemFont, fontSize = 20, 
 						align = "center" }
@@ -97,17 +79,15 @@ function scene:create( event )
 			label = "",
 			onEvent = backToHobbyGroupsViewButtonEvent,
 			x = display.contentCenterX,
-			y = eventDescriptionContentEParams.y + 50
+			y = eventDescriptionContentEParams.y + 100
 		}
 	)
 	
 
 	sceneGroup:insert( background )
 	sceneGroup:insert( titleForEventView )
-	sceneGroup:insert( eventNameEHeader )
 	sceneGroup:insert( eventVenueEHeader )
 	sceneGroup:insert( eventDescriptionEHeader )
-	sceneGroup:insert( eventNameContentEHeader )
 	sceneGroup:insert( eventVenueContentEHeader )
 	sceneGroup:insert( eventDescriptionContentEHeader )
 	sceneGroup:insert( backToHobbyGroupsViewButton )
@@ -148,7 +128,6 @@ function scene:show( event )
 			local row = event.target
 			local id = row.index 
 			
-			eventNameContentEHeader.text =  thobbyGroupEvents[id].EventName  
 			eventVenueContentEHeader.text = thobbyGroupEvents[id].EventVenue
 			eventDescriptionContentEHeader.text = thobbyGroupEvents[id].EventDetails
 			return true
@@ -182,14 +161,14 @@ function scene:hide( event )
 	if event.phase == "will" then
 		thobbyGroupEvents = {}
 		eventsETableView:removeSelf()
-	elseif phase == "did" then
 
+	elseif phase == "did" then
 	end
 end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	
+
 
 end
 
