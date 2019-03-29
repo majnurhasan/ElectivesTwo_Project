@@ -39,6 +39,13 @@ local function InitializeTables()
 																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
 	db:exec( wavesTableSetup )
 
+	local rwavesTableSetup = [[CREATE TABLE IF NOT EXISTS RWaves ( RWaveID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+																							RWaveStatus, 
+																							RWaveDate,
+																							UserID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID));]]
+	db:exec( rwavesTableSetup )
+
 	local hobbyGroupsTableSetup = [[CREATE TABLE IF NOT EXISTS HobbyGroups ( GroupID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 																							GroupName,
 																							NumberOfPeople,
@@ -83,6 +90,12 @@ local function InitializeTables()
 																							FOREIGN KEY(UserID) REFERENCES People(UserID),
 																							FOREIGN KEY(WaveID) REFERENCES Waves(WaveID));]]
 	db:exec( peopleWavesSetup )
+
+	local peopleRWavesSetup = [[CREATE TABLE IF NOT EXISTS People_RWaves ( UserID INTEGER NOT NULL,
+																							RWaveID INTEGER NOT NULL,
+																							FOREIGN KEY(UserID) REFERENCES People(UserID),
+																							FOREIGN KEY(RWaveID) REFERENCES RWaves(RWaveID));]]
+	db:exec( peopleRWavesSetup )
 
 	
 end
@@ -374,6 +387,18 @@ local function LoadDataFromTables()
 		wavesCounter = wavesCounter + 1
 	end
 
+	rwavesCounter = 0;
+	for row in db:nrows( "SELECT * FROM RWaves" ) do
+		twaves[#twaves+1] =
+		{
+			RWaveID = row.RWaveID,
+			RWaveStatus = row.RWaveStatus,
+			RWaveDate = row.RWaveDate,
+			UserID = row.UserID
+		}
+		wavesCounter = wavesCounter + 1
+	end
+
 	hobbyGroupsCounter = 0;
 	for row in db:nrows( "SELECT * FROM HobbyGroups" ) do
 		tgroups[#tgroups+1] =
@@ -424,6 +449,16 @@ local function LoadDataFromTables()
 			WaveID = row.WaveID
 		}
 		peopleWavesCounter = peopleWavesCounter + 1
+	end
+
+	peopleRWavesCounter = 0;
+	for row in db:nrows( "SELECT * FROM People_RWaves" ) do
+		tpeopleRWaves[#tpeopleRWaves+1] =
+		{
+			UserID = row.UserID,
+			RWaveID = row.RWaveID
+		}
+		peopleRWavesCounter = peopleRWavesCounter + 1
 	end
 end
 

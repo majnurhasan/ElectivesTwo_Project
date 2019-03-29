@@ -11,10 +11,12 @@ thobbies = {}
 tgroups = {}
 tevents = {}
 twaves = {}
+trwaves = {}
 tpeopleHobbyGroups = {}
 tpeopleFriends = {}
 tpeopleEvents = {}
 tpeopleWaves = {}
+tpeopleRWaves = {}
 -- Person logged in
 tloggedInUser = {}
 tloggedInUserHobbies = {}
